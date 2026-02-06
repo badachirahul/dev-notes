@@ -1,7 +1,12 @@
-- Operators are used to make commands more powerful.
+- Operators: Operators are used to make commands more powerful.
+- Flags: Flags used to modify how a command works
+
+- head command prints starting 10 lines of a file.
+- nano command is used to edit a file by entering inside.
+- grep (Global Regular Expression)
 
 - 📂 For FILES:
-| Permission  | Meaning                       |
+| Permission  | Meaning                      |
 | ----------- | ---------------------------- |
 | r (read)    | can open & view file content |
 | w (write)   | can modify file              |
@@ -9,12 +14,61 @@
 
 
 - 📁 For FOLDERS (important difference!)
-| Permission  | Meaning                    |
-| ----------- | -------------------------- |
-| r (read)    | can list files (ls)        |
-| w (write)   | can create/delete files    |
-| x (execute) | can enter/open folder (cd) |
+| Permission  | Meaning                    	   |
+| ----------- | -----------------------------------|  
+| r (read)    | Listing directory content  	   |
+| w (write)   | Create/Delete directory content    |
+| x (execute) | Opening directory ()cd             |
+ 
 
+
+
+- Running Multiple Commands Together: 
+| Symbol | Meaning                           |
+| ------ | --------------------------------- |
+| &&     | run second only if first succeeds |
+| ;      | run second anyway                 |
+| |      | pass output to next               |
+
+     ✅ Correct ways:
+	✔ Using && (recommended):
+	mkdir -p five/six/seven && touch five/six/{c.txt,seven/error.log}
+
+	✔ Or using ; :
+	mkdir -p five/six/seven ; touch five/six/{c.txt,seven/error.log}
+
+
+
+- Port number who can use:
+	| Port range | Who can use      |
+	| ---------- | ---------------- |
+	| 1 – 1023   | Only root (sudo) |
+	| 1024+      | Normal users     |
+
+
+
+- Managing software installing and uninstalling:
+	| Action                       | Command                           | Explanation                        |
+	| ---------------------------- | --------------------------------- | ---------------------------------- |
+	| Install single package       |  sudo apt install htop            | Installs htop                      |
+	| Install multiple packages    |  sudo apt install htop vim nginx  | Installs htop, vim, nginx together |
+	| Uninstall single package     |  sudo apt remove nginx            | Removes nginx (keeps config files) |
+	| Uninstall multiple packages  |  sudo apt remove nginx vim htop   | Removes many apps at once          |
+	| Completely uninstall (clean) |  sudo apt purge nginx             | Removes nginx + config files       |
+	
+     📌 Main ways to install software in Ubuntu	
+	| Method      | Command Example          | Purpose                                      |
+	| ----------- | ------------------------ | -------------------------------------------- |
+	| `apt`       | `sudo apt install nginx` | Default Ubuntu package manager (most common) |
+	| `snap`      | `sudo snap install code` | Universal packages, mainly desktop apps      |
+	| `flatpak`   | `flatpak install app`    | Cross-Linux distribution apps                |
+	| `.deb` file | `sudo dpkg -i file.deb`  | Manual package installation                  |
+
+
+
+
+
+Bread and Butter Commands - all important:
 
 1. man - (Manual)
    - shows manual (help) pages for Linux commands. 
@@ -26,16 +80,16 @@
    - ex: cd Documents
    
    	- cd .   - stays in current directory.  
-   	           ex: cd .
+           	   ex: cd .
 
 	- cd ..  - moves one level up (parent folder).  
-	           ex: cd ..
+           	   ex: cd ..
 
 	- cd ~   - goes to home directory.   (~ = home)  
-	           ex: cd ~
+           	   ex: cd ~
 
 	- cd -   - goes to previous directory.  
-	           ex: cd -
+           	   ex: cd -
 
 	Understanding the difference bt .. and -
 	Case 1: Step by step
@@ -65,19 +119,19 @@
    
    Note: - mkdir -p = create multiple parent folders automatically. (p means parents)
    	 - ex: mkdir -p dev/java/project1
-	 
-	 
+ 	 
+ 	 
 4. mv - (Move)
    - moves or renames files and folders.
    - move: mv file1.txt Documents/
    - rename: - syntax: mv old_name new_name
-	     -      ex: mv oldname.txt newname.txt
-	     
-   Note: We have these files:  file1.txt   file2.txt   our-dog.txt
-         - Rename to an EXISTING name
-         - mv file1.txt file2.txt
-         - Before: file1.txt   file2.txt   our-dog.txt
-         - After: file2.txt   our-dog.txt
+ 	     -     ex: mv oldname.txt newname.txt
+ 	     
+    Note: We have these files:  file1.txt   file2.txt   our-dog.txt
+          - Rename to an EXISTING name
+          - mv file1.txt file2.txt
+          - Before: file1.txt   file2.txt   our-dog.txt
+          - After: file2.txt   our-dog.txt
           
 	👉 Old file2.txt is deleted
 	👉 file1.txt becomes file2.txt
@@ -140,6 +194,12 @@
 
 	- rm -f   - force delete without asking (even protected files).   (-f = force)  
 		  - ex: rm -f file1.txt
+		  
+	| Command | Full Form        | What it does                                                              |
+	| ------- | ---------------- | ------------------------------------------------------------------------- |
+	|  rm     | Remove           | Deletes files and folders (can delete non-empty folders with options)     |
+	|  rmdir  | Remove Directory | Deletes only empty folders                                                |
+
 
 9. chmod - (Change Mode)
    - changes file/folder permissions.
@@ -171,8 +231,8 @@
 	      
 
      ii. Symbolic (rwx) method:
-          - Format: chmod [who][operator][permission] file
-          - 👥 who:
+         - Format: chmod [who][operator][permission] file
+         - 👥 who:
 		u = owner
 		g = group
 		o = others
@@ -195,17 +255,17 @@
     - ex: sudo chown user file.txt
 
     📁 For files:
-        📌 Change only owner:
+       📌 Change only owner:
 	  sudo chown newUser file.txt
 	  👉 owner becomes newUser
 	  👉 group remains same
 
-        📌 Change owner + group together:
+       📌 Change owner + group together:
 	  sudo chown newUser:newGroup file.txt
 	  👉 owner → newUser
 	  👉 group → newGroup
 
-        📌 Change only group:
+       📌 Change only group:
 	  sudo chown :newGroup file.txt
 	  👉 owner unchanged
 	  👉 group changed	
@@ -239,12 +299,15 @@
     - ex: sudo apt install tree 
     
     📌 Common useful commands:
-        - sudo apt update      - refresh package list
-        - sudo apt upgrade     - upgrade installed software
-        - sudo apt install pkg - install software
-        - sudo apt remove pkg  - remove software
+       - sudo apt update      - refresh package list
+       - sudo apt upgrade     - upgrade installed software
+       - sudo apt install pkg - install software
+       - sudo apt remove pkg  - remove software
     
-   🧠 apt usually needs sudo
+   🧠 - apt usually needs sudo
+      - Some commands don’t need sudo:
+		- apt search nginx
+		- apt show nginx
 
 
 13. touch -
@@ -287,15 +350,15 @@
         - less = better viewer and many features.
 	
 17. tail - 
-    - shows last 10 lines of a file.
+    - shows by default last 10 lines of a file.
     - ex: tail file1.txt
     
 18. head -
-    - shows first 10 lines of a file.  
+    - shows by default first 10 lines of a file.  
     - ex: head file1.txt
 
   📝 Custom printing:
-     - head -15 file1.txt = show last 15 lines
+     - head -15 file1.txt = show first 15 lines
      - head -n 15 file1.txt = same thing
      
      
@@ -306,7 +369,7 @@
 	• It compares source and destination
 	• Checks which files are same
 	• Finds which files changed
-    👉 Then:
+   👉 Then:
 	✅ Same files → skipped
 	✅ Changed/new files → copied
 	
@@ -328,10 +391,14 @@
     - searches for a word/pattern in files.  
     - ex: grep "error" file.txt
     
-    📌 Useful options:
-        - grep -i "word" file.txt   - ignore case (Word, WORD, word)
-        - grep -n "word" file.txt   - show line number
-        - grep -r "word" folder/    - search inside folders (recursive)
+   | Command                   | Option | Explanation                                                                       |
+   | ------------------------- | ------ | --------------------------------------------------------------------------------- |
+   |  grep -i "word" file.txt  |  -i    | Ignore Case (matches Word, WORD, word)                                            |
+   |  grep -n "word" file.txt  |  -n    | Line Number (shows line number where match appears)                               |
+   |  grep -r "word" folder/   |  -r    | Recursive (search inside all files in folder and subfolders)                      |
+   |  grep -v "word" file.txt  |  -v    | Invert Match (shows lines that DO NOT contain the word)                           |
+   |  grep -o "word" file.txt  |  -o    | Only Matching (prints only the matched word, not full line — useful for counting) |
+
        
     📌 Example:
       - If file has:  Java is good
@@ -349,20 +416,17 @@
     - ex: find . -name file1.txt
 
     📌 Common options:
-	- find . -name file.txt        - search by name
-	- find . -iname file.txt       - search by name (ignore case)
+	- find . -name file.txt       - search by name
+	- find . -iname file.txt      - search by name (ignore case)
 
-	- find . -type f               - find only files
-	- find . -type d               - find only folders
+	- find . -type f              - find only files
+	- find . -type d              - find only folders
 
-	- find . -size +10M            - files bigger than 10MB
-	- find . -size -1M             - files smaller than 1MB
+	- find . -size +10M           - files bigger than 10MB
+	- find . -size -1M            - files smaller than 1MB
 
-	- find . -mtime -1             - files modified today
-	- find . -mtime +7             - files older than 7 days
-	
-	👉 We can use .. as well. Which search from parent.	
-	
+	- find . -mtime -1            - files modified today
+	- find . -mtime +7            - files older than 7 days	
 
      🧠 Note:  - find .   👉 This will list everything (all files & folders).
                - find ..  👉 This will list everything from parent (all files & folders).
@@ -379,9 +443,9 @@
     - ex: sort file.txt
 
     📌 Useful options:
-	sort file.txt         - sort alphabetically
-	sort -n file.txt      - sort numerically
-	sort -r file.txt      - reverse order
+	sort file.txt        - sort alphabetically
+	sort -n file.txt     - sort numerically
+	sort -r file.txt     - reverse order
 
 
 23. date - 
@@ -398,6 +462,194 @@
     - ex: wc file.txt
     
     📌 Useful options:
-        - wc -l file.txt   - count lines
-        - wc -w file.txt   - count words
-        - wc -c file.txt   - count characters
+       - wc -l file.txt   - count lines
+       - wc -w file.txt   - count words
+       - wc -c file.txt   - count characters
+       
+ 
+ 26. sed - (Stream Editor) 
+     - 👉 It reads text line by line and can:
+	   - print lines
+	   - replace text
+	   - delete lines
+	   (Mainly used for editing text in terminal)
+     - sed = powerful line-based text editor in command line
+     
+     - Table:
+        | Command                         | Option / Part | Explanation                                           |
+	| ------------------------------- | ------------- | ----------------------------------------------------- |
+	|  sed 's/old/new/' file.txt      |  s            | Substitute (replace first occurrence in each line)    |
+	|  sed 's/old/new/g' file.txt     |  g            | Global replace (replace all occurrences in each line) |
+	|  sed '5d' file.txt              |  d            | Delete line number 5                                  |
+	|  sed '10,20d' file.txt          |  d            | Delete lines from 10 to 20                            |
+	|  sed -n '/Harry/p' file.txt     | -n            | -n = No automatic printing 				  |
+        |                                 |  p            |  p = Print only lines that match the word             | 
+	|  sed -i 's/old/new/g' file.txt  | -i            | Edit file directly (save changes)                     |
+
+     - ex:
+	  sed -n '100,200p' file.txt
+
+	  Meaning:
+	  • -n → do not print everything automatically
+	  • 100,200 → line range
+	  • p → print
+	👉 Prints only lines 100 to 200
+	
+27. tr - (Translate)
+    - It replaces or deletes characters in text.
+    - Table with ex:    
+	    | Command               | Option / Part   | Explanation                                       			      |
+	    | --------------------- | --------------- | ------------------------------------------------------------------------------|
+	    |  tr ' ' '\n'          | space → newline | Replaces spaces with new lines (one word per line) 			      |
+	    |  tr 'a-z' 'A-Z'       | range           | Converts lowercase letters to uppercase           			      |
+	    |  tr 'A-Z' 'a-z'       | range           | Converts uppercase letters to lowercase        				      |
+	    |  tr -d ','            |  -d             | Deletes specified character (removes commas)     			      |
+	    |  tr -d ' '            |  -d             | Deletes spaces                                                                |
+            |  tr -c 'A-Za-z' '\n'  |  -c             | Replaces everything except letters with new lines (used to split clean words) |
+	    
+
+28. uniq - 
+    - Table with ex:
+		| Command                 | Option      | Explanation                                       |
+		| ----------------------- | ----------- | ------------------------------------------------- |
+		|  uniq file.txt          | (no option) | Removes duplicate consecutive lines               |
+		|  sort file.txt \| uniq  | pipeline    | Sorts first, then removes all duplicates properly |
+		|  uniq -c                |  -c         | Counts how many times each line appears           |
+		|  uniq -d                |  -d         | Shows only duplicated lines                       |
+		|  uniq -u                |  -u         | Shows only lines that appear once                 |
+
+
+
+
+OS/Process Related Commands:
+1. ps - (Process Status) 
+   - Displays currently running processes.
+   - ex: ps
+  	
+| Command  | Flags Meaning                                                      | Shows                         | Best Used For                        |
+| -------- | ------------------------------------------------------------------ | ----------------------------- | ------------------------------------ |
+|  ps -ef  |  -e = every process<br>, -f = full format                          | PID, PPID, command, user      | Seeing parent-child process relation |
+|  ps aux  |   a = all users<br>, u = user format<br>, x = background processes | PID, CPU %, Memory %, command | Monitoring CPU & RAM usage           |
+
+   
+   
+2. top - (Table Of Processes)
+   - shows running processes in real time (live view)
+   - ex: top
+   
+3. df - (Disk Free) 
+   - shows disk space usage
+   - ex: df
+   
+   - ex: df -h
+         👉 -h = Human readable (shows in KB, MB, GB)
+
+
+4. uname - (Unix Name) 
+   - shows system information
+   - ex: uname
+   
+   📌 Common useful options:
+	| Command    | Option      | Explanation                                                       |
+	| ---------- | ----------- | ----------------------------------------------------------------- |
+	| `uname`    | (no option) | Shows basic system name                                           |
+	| `uname -a` | `-a`        | Shows all system information (kernel, OS, architecture, hostname) |
+	| `uname -r` | `-r`        | Shows kernel version                                              |
+	| `uname -m` | `-m`        | Shows machine type (32-bit or 64-bit)                             |
+
+5. free - (Free Memory) 
+   - shows memory (RAM) usage
+   - ex: free
+   
+   - ex: free -h
+         👉 -h = Human readable (shows in KB, MB, GB)
+
+6. lspci - (List PCI devices) 
+   - shows hardware devices connected to PCI bus
+   - ex: lspci
+   
+   - Table:
+	| Line Keyword                     | Device Type         | What it means                |
+	| -------------------------------- | ------------------- | ---------------------------- |
+	| `Non-Volatile memory controller` | SSD (Storage)       | Your Intel NVMe SSD drive    |
+	| `Network controller`             | Network card        | Your WiFi / Internet device  |
+	| `VGA compatible controller`      | Graphics card (GPU) | Your AMD graphics processor  |
+	| `Audio device`                   | Sound card          | Handles audio (speaker, mic) |
+	| `USB controller`                 | USB ports           | Controls USB devices         |
+
+
+7. kill - (Kill Process)
+   - terminates a running process
+   - ex: kill PID
+   
+   - ex: pkill chrome (Kill a process by name)
+   
+   📌 Basic example:
+       - ex: kill 1234
+       👉 Stops process with PID = 1234
+
+
+
+Network Related Commands:
+1. ping - (Packet Internet Groper) 
+   - checks network connectivity
+   - ex: ping google.com
+   
+   - ex: ping -c 4 google.com
+   👉 send 4 packets then stop (-c = Count)
+
+   - ping output in table:
+   
+   	| Output Part                       | Meaning          | Explanation                         		    |
+	| --------------------------------- | ---------------- | -------------------------------------------------- |
+	| `PING google.com (142.250.70.78)` | IP Address       | Google’s server IP                    		    |
+	| `64 bytes`                        | Packet size      | Data sent in each ping                             |
+	| `time=32 ms`                      | Response time    | How fast server replied (lower = better)           |	    
+	| `ttl=118`                         | Time To Live     | Network hop limit (not important now) 		    |
+	| `4 transmitted`                   | Sent packets     | Number of pings sent              		    |
+	| `4 received`                      | Received packets | Successful replies                    		    |
+	| `0% packet loss`                  | Network quality  | No data lost (perfect connection)                  |
+	| `rtt min/avg/max`                 | Speed stats      | Ping time summary (rtt - Round Trip Time (speed))  |
+
+
+2. ifconfig - (Interface Configuration) 
+   - shows network interface configuration
+   - ex: ifconfig
+ 
+  
+    🧠 Important to remember:
+       ✔️ ifconfig = old (still used sometimes)
+       ✔️ ip a = new standard
+       
+        | Interface | Meaning                 |
+	|-----------|-------------------------|
+	|  lo       | internal system network |
+	|  wlx...   | your WiFi               |
+	|  inet     | your IP address         |
+
+3. ssh - (Secure Shell)
+   - connects to another computer remotely
+   - ex: ssh user@ip_address
+
+4. ss - (Socket Statistics)
+   - ss shows information about network sockets
+   - tool to view network connections and ports (Modern replacement of netstat)
+   
+   📌 Display all active TCP / UDP connections
+      ex: ss -tuln
+		• ss → socket statistics (network info tool)
+		• -t → show TCP connections
+		• -u → show UDP connections
+		• -l → show only listening ports (active services)
+		• -n → show numbers (ports/IPs as numbers, not names)
+		
+    🧠 How it works:
+	1️⃣ ss -tulnp
+	👉 shows ports + which process owns them
+
+	2️⃣ | grep 5432
+	👉 filters only port 5432
+	
+5. 📌 When to use:
+      • Use which when running commands
+      • Use whereis when exploring system
