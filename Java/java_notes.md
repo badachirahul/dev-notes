@@ -45,7 +45,7 @@
 		    String a = "A";
 		    String b = "B"; ------- Here JVM knows for (a + b) I need to perform concatenation
 
-### 🎯 One-line summary: Data types organize data in memory so JVM can store, understand, and process it correctly.
+#### 🎯 One-line summary: Data types organize data in memory so JVM can store, understand, and process it correctly.
 
 
 ## 2. SELECTION STATEMENTS - if, switch
@@ -181,7 +181,7 @@
 
 ## 4. GENERICS
 
-### 1. What is Type Erasure?
+### i. What is Type Erasure?
    *  Java compiler removes generic type information at compile time i.e **Type Erasure**.
 
     1️⃣ At compile time:
@@ -199,5 +199,9 @@
 
         ex: Object obj  = new Integer(10);
 
-    🎯 MAIN reason for type erasure:
-        👉 **Backward compatibility** with old Java code and JVM
+* 🎯 MAIN reason for type erasure: **Backward compatibility** with old Java code and JVM
+
+
+### ii. Why Generics won't support Primitive Data Type:
+
+![alt text](image.png)
