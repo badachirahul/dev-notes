@@ -4,7 +4,7 @@
 
 * **Program**: A program is a set of instruction.
 
-* **Process**: A program in execution is called process.
+* **Process**: A program under execution is called process.
 
 * **Thread**: A thread is the smallest unit of execution within a process.
 
@@ -14,7 +14,7 @@
 * **Executing multiple threads concurrently within a single process.**
 
 ### 2. Why to use Multithreading:
-* Better CPU Utilization
+* To utilize CPU time efficiently
 * Faster response
 * Develop video games.
 
@@ -83,7 +83,11 @@
     | Flexibility      | Low                       | Low                        | Very High                 |
     | Use Case         | Protect object data       | Protect class-level data   | Protect critical section  |
 
-
+    ### Disadvantages of Synchronized (Intrinsic Lock)
+    *   No fairness policy
+    *   No try-lock support (only blocking)
+    *   No interruptible locking
+    *   No read/write lock support    
 
 ### **2. Explicit Locks**
 
@@ -202,3 +206,76 @@
     ``` java
     Condition condition = lock.newCondition();
     ```
+    <br>
+
+    ### ⚠️ Starvation
+    - Starvation occurs when a thread does not get a chance to access a required resource for a long time.
+        - It’s not just CPU execution:
+        - It can be: 
+            - Not getting lock
+            - Not getting CPU time
+            - Not getting resource
+    - Happens when other threads continuously get priority.
+    - `synchronized` may cause starvation due to lack of fairness policy.
+    
+    - To overcome this, we use **Fairness policy**
+
+
+    ### 🔥 Fairness Policy
+    * Fair lock: Threads acquire the lock in the order they requested it (first-come-first-serve).
+    ``` java
+    ReentrantLock fairLock = new ReentrantLock(true); // Fair lock
+    ```
+    <br>
+
+    ## 🔐 Read/Write Lock (ReentrantReadWriteLock)
+
+    ### 🔹 What is Read/Write Lock?
+
+    A **ReadWriteLock** allows:
+
+    -   Multiple threads to **read** at the same time ✅
+    -   Only one thread to **write** at a time ❌
+
+    ### Rules:
+
+    -   When writing → no one can read
+    -   When reading → no one can write
+
+    ------------------------------------------------------------------------
+
+    ## 🧠 Why Do We Need It?
+
+    With normal `synchronized`:
+
+    -   Only one thread is allowed at a time (even for reading)
+    -   Reduces performance in read-heavy systems
+
+    ReadWriteLock improves performance when:
+
+    -   Many read operations
+    -   Few write operations
+
+    <br>
+
+    ## 🔒 Thread Blocking Methods
+    ### 🧵 From Thread class
+    * Thread.sleep()
+    * Thread.join()
+
+    ### 🧵 From Object class
+    * wait()
+
+    ### 🔐 From Lock interface
+    * lock()
+    * lockInterruptibly()
+    * tryLock(long time, TimeUnit unit)
+
+    ### 🟢 Interruptible Blocking Methods (Throws InterruptedException)
+    * sleep()
+    * join()
+    * wait()
+    * lockInterruptibly()
+    * tryLock(timeout)
+    * BlockingQueue.take()
+    * These throw InterruptedException.
