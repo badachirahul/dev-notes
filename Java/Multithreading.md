@@ -90,7 +90,7 @@
 - Explicit lock is a manually controlled lock mechanism provided by `java.util.concurrent.locks`, mainly using `ReentrantLock`.
 
 
-    ## 🔹 Basic Structure
+    ### 🔹 Basic Structure
 
     ``` java
     import java.util.concurrent.locks.ReentrantLock;
@@ -105,7 +105,7 @@
     }
     ```
 
-    ## 🔹 Why `finally` Block?
+    ### 🔹 Why `finally` Block?
         To ensure:
 
         - Lock is always released
@@ -113,5 +113,20 @@
 
         If you forget `unlock()` → Deadlock risk 🚨
  
+    ### 🔹 Instance-Level Explicit Lock
 
+    ``` java
+    private final Lock lock = new ReentrantLock();
+    ```
 
+    -   Each object has its own lock.
+    -   Equivalent to → `instance synchronized`.
+
+    ### 🔹 Class-Level Explicit Lock
+
+    ``` java
+    private static final Lock lock = new ReentrantLock();
+    ```
+
+    -   All objects share the same lock.
+    -   Equivalent to → `static synchronized`.
