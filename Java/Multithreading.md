@@ -28,7 +28,7 @@
 - Synchronization is a mechanism that allows only one thread at a time to access a shared resource.
 
 ### 2. Ways to Achieve Synchronization
-![alt text](image-1.png)
+![alt text](image-2.png)
 
 ### 🔥 Comparison of Synchronization Types
 
@@ -80,4 +80,3 @@
     - Any custom object
     - ClassName.class
 
-    
