@@ -31,8 +31,8 @@
 2. **Explicit Locks** (from java.util.concurrent.locks)
 
 
-### 1. Intrinsic Locks:
-* These are the locks automatically provided by Java’s synchronized keyword.
+### **1. Intrinsic Locks:**
+* These are the locks automatically provided by Java’s `synchronized` keyword.
 * Below are the types:
 
     #### i.  Instance synchronization: 
@@ -83,5 +83,35 @@
     | Flexibility      | Low                       | Low                        | Very High                 |
     | Use Case         | Protect object data       | Protect class-level data   | Protect critical section  |
 
-### 2. Explicit Locks:
-* Unlike synchronized, explicit locks must be manually acquired and released, giving developers more flexibility and control.
+
+
+### **2. Explicit Locks**
+
+- Explicit lock is a manually controlled lock mechanism provided by `java.util.concurrent.locks`, mainly using `ReentrantLock`.
+
+
+    ## 🔹 Basic Structure
+
+    ``` java
+    import java.util.concurrent.locks.ReentrantLock;
+
+    ReentrantLock lock = new ReentrantLock();
+
+    lock.lock();
+    try {
+        // critical section
+    } finally {
+        lock.unlock();
+    }
+    ```
+
+    ## 🔹 Why `finally` Block?
+        To ensure:
+
+        - Lock is always released
+        - Even if an exception occurs
+
+        If you forget `unlock()` → Deadlock risk 🚨
+ 
+
+
