@@ -130,3 +130,75 @@
 
     -   All objects share the same lock.
     -   Equivalent to → `static synchronized`.
+
+    ## 🔐 Important Methods of Lock (ReentrantLock)
+
+    ### 🔹 1. lock()
+
+    -   Acquires the lock.
+    -   If lock is not available, the thread waits.
+
+    ``` java
+    lock.lock();
+    ```
+
+    ------------------------------------------------------------------------
+
+    ### 🔹 2. unlock()
+
+    -   Releases the lock.
+    -   Must be called after `lock()`.
+
+    ``` java
+    lock.unlock();
+    ```
+
+    ------------------------------------------------------------------------
+
+    ### 🔹 3. tryLock()
+
+    -   Attempts to acquire the lock.
+    -   Does NOT wait.
+    -   Returns `true` if successful, otherwise `false`.
+
+    ``` java
+    if (lock.tryLock()) {
+        try {
+            // critical section
+        } finally {
+            lock.unlock();
+        }
+    }
+    ```
+
+    ------------------------------------------------------------------------
+
+    ### 🔹 4. tryLock(long time, TimeUnit unit)
+
+    -   Waits for a specific time to acquire the lock.
+    -   Returns `true` if lock is acquired within the time limit.
+
+    ``` java
+    lock.tryLock(5, TimeUnit.SECONDS);
+    ```
+
+    ------------------------------------------------------------------------
+
+    ### 🔹 5. lockInterruptibly()
+
+    -   Acquires the lock but allows interruption while waiting.
+
+    ``` java
+    lock.lockInterruptibly();
+    ```
+
+    ------------------------------------------------------------------------
+
+    ### 🔹 6. newCondition()
+
+    -   Creates a `Condition` object.
+    -   Used for advanced thread communication (alternative to wait/notify).
+
+    ``` java
+    Condition condition = lock.newCondition();
+    ```
