@@ -205,3 +205,117 @@
 ### ii. Why Generics won't support Primitive Data Type:
 
 ![alt text](image.png)
+
+
+
+
+### 📌 Java String.split() and CSV Parsing
+1️⃣ Default behavior of split()
+String[] data = line.split(",");
+
+
+Uses regex
+
+Removes trailing empty strings
+
+Causes variable array length for CSV rows
+
+Example:
+
+"a,b,c,,".split(",").length   // 3
+
+
+Trailing empty columns are discarded.
+
+2️⃣ Why this breaks CSV parsing
+
+CSV rows may end with empty values:
+
+..., , ,
+
+
+But Java drops them → array becomes shorter.
+
+Result:
+
+Some rows → data.length = 21
+
+Some rows → data.length = 18
+
+Accessing fixed indexes causes:
+
+ArrayIndexOutOfBoundsException
+
+3️⃣ split(",", -1) (Correct way)
+String[] data = line.split(",", -1);
+
+
+Preserves trailing empty strings
+
+Maintains consistent column count
+
+Required for fixed-index CSV parsing
+
+Example:
+
+"a,b,c,,".split(",", -1).length   // 5
+
+4️⃣ Visual comparison
+Code	Result
+split(",")	Drops trailing empties ❌
+split(",", -1)	Keeps trailing empties ✅
+5️⃣ Why null checks don’t help
+
+Missing column → index doesn’t exist
+
+Java throws exception before null check
+
+CSV empty column → "" (empty string), not null
+
+6️⃣ Safe CSV access pattern
+String value =
+    data.length > index && !data[index].isEmpty()
+        ? data[index]
+        : null;
+
+7️⃣ Best practice summary
+
+Always use:
+
+line.split(",", -1);
+
+
+Always check:
+
+array length
+
+empty strings
+
+Never assume all CSV rows have same length
+
+🔑 One-line takeaway
+
+split(",") drops trailing empty columns → causes index errors
+split(",", -1) preserves CSV structure
+
+
+
+Think of the commit as an instruction
+
+When Git applies a commit, it’s like saying:
+
+Solve Q1
+
+Fix bug
+
+Add feature
+
+Remove unused code
+
+Not:
+
+Solved
+
+Fixed
+
+Added
