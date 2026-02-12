@@ -84,3 +84,4 @@
     | Use Case         | Protect object data       | Protect class-level data   | Protect critical section  |
 
 ### 2. Explicit Locks:
+* Unlike synchronized, explicit locks must be manually acquired and released, giving developers more flexibility and control.
