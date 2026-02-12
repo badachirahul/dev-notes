@@ -23,60 +23,64 @@
 * Multiple Cores → Concurrent + Possibly Parallel
 
 
-## Synchronization
-### 1. What is Synchronization?
-- Synchronization is a mechanism that allows only one thread at a time to access a shared resource.
+# Lock
+- A lock is a synchronization mechanism that allows only one thread to access a shared resource at a time.
 
-### 2. Ways to Achieve Synchronization
-![alt text](image-2.png)
-
-### 🔥 Comparison of Synchronization Types
-
-| Feature          | Instance Synchronization  | Static Synchronization     | Synchronization Block     |
-|------------------|---------------------------|----------------------------|---------------------------|
-| Lock Type        | Object (`this`)           | Class (`ClassName.class`)  | Any object you choose     |
-| Lock Scope       | Per object                | Per class                  | Depends on object used    |
-| Lock Area        | Entire method             | Entire method              | Only selected block       |
-| Number of Locks  | One per object            | One per class              | Depends on lock object    |
-| Flexibility      | Low                       | Low                        | Very High                 |
-| Use Case         | Protect object data       | Protect class-level data   | Protect critical section  |
+### Types of Lock
+1. **Intrinsic Locks**
+2. **Explicit Locks** (from java.util.concurrent.locks)
 
 
-#### i.  Instance synchronization: 
-    public synchronized void method() { 
+### 1. Intrinsic Locks:
+* These are the locks automatically provided by Java’s synchronized keyword.
+* Below are the types:
 
-    }
-* 🔐 Lock is on:
-    - 👉 Object (this)
-* 🧠 Meaning:
-    - Each object has its own lock. 
-    - If 5 objects exist → 5 locks exist.
-* Threads using different objects do NOT block each other.
+    #### i.  Instance synchronization: 
+        public synchronized void method() { 
 
-#### ii. Static synchronization:
-    public static synchronized void method() { 
-
-    }
-* 🔐 Lock is on:
-    - Class (ClassName.class)
-* 🧠 Meaning:
-    - Only ONE class lock exists.
-    - Even if 100 objects exist → still 1 lock.
-* Only ONE thread can enter at a time (for that class).
-
-#### iii. Synchronization block:
-    public void method() {
-        synchronized (lockObject) {
-            // critical section
         }
-    }
+    * 🔐 Lock is on:
+        - 👉 Object (this)
+    * 🧠 Meaning:
+        - Each object has its own lock. 
+        - If 5 objects exist → 5 locks exist.
+    * Threads using different objects do NOT block each other.
 
-* 🔐 Lock is on:
-    - 👉 The object inside brackets
-        lockObject
+    #### ii. Static synchronization:
+        public static synchronized void method() { 
 
-* It can be:
-    - this
-    - Any custom object
-    - ClassName.class
+        }
+    * 🔐 Lock is on:
+        - Class (ClassName.class)
+    * 🧠 Meaning:
+        - Only ONE class lock exists.
+        - Even if 100 objects exist → still 1 lock.
+    * Only ONE thread can enter at a time (for that class).
 
+    #### iii. Synchronized block:
+        public void method() {
+            synchronized (lockObject) {
+                // critical section
+            }
+        }
+
+    * 🔐 Lock is on:
+        - 👉 The object inside brackets
+            lockObject
+
+    * It can be:
+        - this
+        - Any custom object
+        - ClassName.class
+
+    ### 🔥 Comparison of Synchronization Types
+    | Feature          | Instance Synchronization  | Static Synchronization     | Synchronization Block     |
+    |------------------|---------------------------|----------------------------|---------------------------|
+    | Lock Type        | Object (`this`)           | Class (`ClassName.class`)  | Any object you choose     |
+    | Lock Scope       | Per object                | Per class                  | Depends on object used    |
+    | Lock Area        | Entire method             | Entire method              | Only selected block       |
+    | Number of Locks  | One per object            | One per class              | Depends on lock object    |
+    | Flexibility      | Low                       | Low                        | Very High                 |
+    | Use Case         | Protect object data       | Protect class-level data   | Protect critical section  |
+
+### 2. Explicit Locks:
