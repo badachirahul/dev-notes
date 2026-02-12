@@ -43,7 +43,9 @@
 
 
 #### i.  Instance synchronization: 
-* **public synchronized void method() { }**
+    public synchronized void method() { 
+
+    }
 * 🔐 Lock is on:
     - 👉 Object (this)
 * 🧠 Meaning:
@@ -52,7 +54,9 @@
 * Threads using different objects do NOT block each other.
 
 #### ii. Static synchronization:
-* **public static synchronized void method() { }**
+    public static synchronized void method() { 
+
+    }
 * 🔐 Lock is on:
     - Class (ClassName.class)
 * 🧠 Meaning:
@@ -61,16 +65,19 @@
 * Only ONE thread can enter at a time (for that class).
 
 #### iii. Synchronization block:
+    public void method() {
+        synchronized (lockObject) {
+            // critical section
+        }
+    }
 
-🔐 Lock is on:
+* 🔐 Lock is on:
+    - 👉 The object inside brackets
+        lockObject
 
-👉 The object inside brackets
-lockObject
+* It can be:
+    - this
+    - Any custom object
+    - ClassName.class
 
-It can be:
-
-this
-
-Any custom object
-
-ClassName.class
+    
