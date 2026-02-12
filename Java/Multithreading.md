@@ -26,8 +26,23 @@
 ## Synchronization
 ### 1. What is Synchronization?
 - Synchronization is a mechanism that allows only one thread at a time to access a shared resource.
-### 2. Difference between instance synchronized and static synchronized?
-#### i.  Instance synchronized: 
+
+### 2. Ways to Achieve Synchronization
+![alt text](image-1.png)
+
+### 🔥 Comparison of Synchronization Types
+
+| Feature          | Instance Synchronization  | Static Synchronization     | Synchronization Block     |
+|------------------|---------------------------|----------------------------|---------------------------|
+| Lock Type        | Object (`this`)           | Class (`ClassName.class`)  | Any object you choose     |
+| Lock Scope       | Per object                | Per class                  | Depends on object used    |
+| Lock Area        | Entire method             | Entire method              | Only selected block       |
+| Number of Locks  | One per object            | One per class              | Depends on lock object    |
+| Flexibility      | Low                       | Low                        | Very High                 |
+| Use Case         | Protect object data       | Protect class-level data   | Protect critical section  |
+
+
+#### i.  Instance synchronization: 
 * **public synchronized void method() { }**
 * 🔐 Lock is on:
     - 👉 Object (this)
@@ -36,8 +51,7 @@
     - If 5 objects exist → 5 locks exist.
 * Threads using different objects do NOT block each other.
 
-
-#### ii. Static synchronized:
+#### ii. Static synchronization:
 * **public static synchronized void method() { }**
 * 🔐 Lock is on:
     - Class (ClassName.class)
@@ -45,3 +59,18 @@
     - Only ONE class lock exists.
     - Even if 100 objects exist → still 1 lock.
 * Only ONE thread can enter at a time (for that class).
+
+#### iii. Synchronization block:
+
+🔐 Lock is on:
+
+👉 The object inside brackets
+lockObject
+
+It can be:
+
+this
+
+Any custom object
+
+ClassName.class
