@@ -22,8 +22,9 @@
 * 1 Core → Concurrent (time slicing)
 * Multiple Cores → Concurrent + Possibly Parallel
 
+<br>
 
-# Lock
+# **Lock**
 - A lock is a synchronization mechanism that allows only one thread to access a shared resource at a time.
 
 ### Types of Lock
@@ -31,7 +32,7 @@
 2. **Explicit Locks** (from java.util.concurrent.locks)
 
 
-### **1. Intrinsic Locks:**
+## **1. Intrinsic Locks:**
 * These are the locks automatically provided by Java’s `synchronized` keyword.
 * Below are the types:
 
@@ -89,7 +90,7 @@
     *   No interruptible locking
     *   No read/write lock support    
 
-### **2. Explicit Locks**
+## **2. Explicit Locks**
 
 - Explicit lock is a manually controlled lock mechanism provided by `java.util.concurrent.locks`, mainly using `ReentrantLock`.
 
@@ -279,3 +280,34 @@
     * tryLock(timeout)
     * BlockingQueue.take()
     * These throw InterruptedException.
+
+<br>
+
+## **Daemon Threads**
+#### -> Daemon threads are background threads that support user threads and cannot prevent the JVM from exiting.
+
+### 🔹Important Rules – Daemon Thread (Java)
+- ✔ Must call `setDaemon(true)` **before** `start()`
+- ❌ If you call `setDaemon(true)` after `start()` → `IllegalThreadStateException`
+- ✔ Use `isDaemon()` to check whether a thread is daemon or not
+
+    #### 👉 Default Behavior
+    - Main thread → ❌ Not a daemon thread
+    - Threads created by main → ❌ Not daemon (unless explicitly set)
+
+### 🔹Daemon Thread Inheritance Rule (Java):
+- 👉 A new thread **inherits the daemon status of its parent thread**.
+- If parent is **non-daemon (like main thread)** → new thread is **non-daemon**
+- If parent is **daemon** → new thread is **daemon**
+
+### ⚠️ Never use daemon thread for:
+- Critical business logic
+- Database updates
+- File saving
+- Important transactions
+
+### 🟢 Daemon threads are for:
+- Background tasks
+- Monitoring
+- Logging
+- Garbage collection
