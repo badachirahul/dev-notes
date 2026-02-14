@@ -1,6 +1,9 @@
 # PostgreSQL
 
-## 1. Constraints:
+* ### **SQL → Standard language (like a contract)**
+* ### **MySQL / PostgreSQL → Software that implements SQL + adds extra features**
+
+## **1. Constraints:**
 * **Constraints are rules applied to columns.**
 * Types of constraints:
     1. Not-Null
@@ -9,7 +12,7 @@
     4. Foreign Keys
     5. Check Constraints
 
-## 2. Main Clauses in a SELECT Query
+## **2. Main Clauses in a SELECT Query**
 * General order:
     1. SELECT
     2. FROM
@@ -21,7 +24,9 @@
     8. LIMIT
     9. OFFSET
 
-## 3. Aggregate functions
+<br>
+
+## **3. Aggregate functions**
 * 
     ### 1. COUNT()
     * Counts the number of rows.
@@ -50,3 +55,132 @@
     ### 5. MAX()
     * Returns the largest value.
     * Example: `SELECT MAX(salary) FROM employees;`
+
+<br>
+
+## **4. String Functions:**
+* 
+    ### 1. CONCAT()
+
+    -   Combines multiple strings into one.
+    -   Example: `SELECT CONCAT(first_name, ' ', last_name) FROM employees;`
+    -   Output: Combined full name (e.g., `Rahul Sharma`)
+
+    ------------------------------------------------------------------------
+
+    ### 2. CONCAT_WS()
+
+    -   Combines strings with a separator.
+    -   We can convert into **.csv** file format also.
+    -   Example: `SELECT CONCAT_WS(',', 'Rahul', 'Badachi', '052');`
+    -   Output: `Rahul,Badachi,052`
+
+    ------------------------------------------------------------------------
+
+    ### 3. SUBSTR()
+
+    -   Extracts part of a string.
+    -   Example: `SELECT SUBSTR('Hello World', 1, 5);`
+    -   Output: `Hello`
+
+    ------------------------------------------------------------------------
+
+    ### 4. REPLACE()
+
+    -   Replaces part of a string with another value.
+    -   Example: `SELECT REPLACE('rahul@gmail.com', 'gmail', 'yahoo');`
+    -   Output: `rahul@yahoo.com`
+
+    ------------------------------------------------------------------------
+
+    ### 5. REVERSE()
+
+    -   Reverses the string.
+    -   Example: `SELECT REVERSE('abc');`
+    -   Output: `cba`
+
+    ------------------------------------------------------------------------
+
+    ### 6. LENGTH()
+
+    -   Returns number of characters.
+    -   Example: `SELECT LENGTH('hello');`
+    -   Output: `5`
+
+    ------------------------------------------------------------------------
+
+    ### 7. LOWER()
+
+    -   Converts text to lowercase.
+    -   Example: `SELECT LOWER('RAHUL');`
+    -   Output: `rahul`
+
+    ------------------------------------------------------------------------
+
+    ### 8. UPPER()
+
+    -   Converts text to uppercase.
+    -   Example: `SELECT UPPER('rahul');`
+    -   Output: `RAHUL`
+
+    ------------------------------------------------------------------------
+
+    ### 9. LEFT()
+
+    -   Returns leftmost characters.
+    -   Example: `SELECT LEFT('PostgreSQL', 4);`
+    -   Output: `Post`
+
+    ------------------------------------------------------------------------
+
+    ### 10. RIGHT()
+
+    -   Returns rightmost characters.
+    -   Example: `SELECT RIGHT('PostgreSQL', 3);`
+    -   Output: `SQL`
+
+    ------------------------------------------------------------------------
+
+    ### 11. TRIM()
+
+    -   Removes spaces from both sides.
+    -   Example: `SELECT TRIM('  rahul  ');`
+    -   Output: `rahul`
+
+    ------------------------------------------------------------------------
+
+    ### 12. SPLIT_PART()
+
+    -   Splits a string using delimiter and returns specified part.
+    -   Example: `SELECT SPLIT_PART('rahul@gmail.com', '@', 2);`
+    -   Output: `gmail.com`
+        
+        ### Working:
+
+        Original string:
+
+            rahul@gmail.com
+
+        Split using delimiter: `@`
+
+        After splitting:
+
+            1 → rahul
+            2 → gmail.com
+
+        We requested part number **2**.
+
+        ------------------------------------------------------------------------
+
+        ### Output
+
+            gmail.com
+
+        ------------------------------------------------------------------------
+
+        ### Important Notes
+
+        -   Position starts from **1**, not 0.
+        -   If the requested part does not exist, PostgreSQL returns an **empty
+            string**.
+        -   The original string is not modified.
