@@ -10,7 +10,7 @@
     2. Unique
     3. Primary Keys
     4. Foreign Keys
-    5. Check Constraints
+    5. Check
 
 ## **2. Main Clauses in a SELECT Query**
 * General order:
