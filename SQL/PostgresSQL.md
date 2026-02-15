@@ -184,3 +184,89 @@
         -   If the requested part does not exist, PostgreSQL returns an **empty
             string**.
         -   The original string is not modified.
+
+<br>
+
+## **5. SQL SELECT Execution Order:**
+* 
+    ### 1️⃣ FROM
+
+    - First it finds the table.
+
+        ``` sql
+        FROM employees
+        ```
+
+    - 👉 Loads all rows from `employees`.
+
+    ------------------------------------------------------------------------
+
+    ### 2️⃣ WHERE
+
+    - Filters rows.
+
+        ``` sql
+        WHERE salary > 50000
+        ```
+
+    - 👉 Keeps only rows where salary is greater than 50000.
+
+    ------------------------------------------------------------------------
+
+    ### 3️⃣ GROUP BY
+
+    - Groups similar values.
+
+        ``` sql
+        GROUP BY department
+        ```
+
+    - 👉 Groups rows based on department.
+
+    ------------------------------------------------------------------------
+
+    ### 4️⃣ HAVING
+
+    - Filters grouped data.
+
+        ``` sql
+        HAVING COUNT(*) > 5
+        ```
+
+    - 👉 Keeps only groups having more than 5 rows.
+
+    ------------------------------------------------------------------------
+
+    ### 5️⃣ SELECT
+
+    - Chooses what to display.
+
+        ``` sql
+        SELECT name, salary
+        ```
+
+    - 👉 Displays only name and salary columns.
+
+    ------------------------------------------------------------------------
+
+    ### 6️⃣ ORDER BY
+
+    - Sorts the result.
+
+        ``` sql
+        ORDER BY salary DESC
+        ```
+
+    - 👉 Sorts rows by salary in descending order.
+
+    ------------------------------------------------------------------------
+
+    ### 7️⃣ LIMIT
+
+    - Restricts number of rows.
+
+        ``` sql
+        LIMIT 10
+        ```
+
+    - 👉 Returns only first 10 rows.
