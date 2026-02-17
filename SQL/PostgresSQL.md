@@ -385,3 +385,134 @@
         | 2      | Suman  | HR        |
         | 4      | Kavita | NULL      |
         | NULL   | NULL   | Finance   |
+
+<br>
+
+## **7. SQL DDL and DML Syntax Reference**
+
+## 🔹 DDL (Data Definition Language)
+*   
+    ### 1️⃣ CREATE - Creates new database objects (table, database, etc.).
+
+    #### Create Table - 
+
+    ``` sql
+    CREATE TABLE table_name (
+        column1 datatype constraints,
+        column2 datatype,
+        column3 datatype
+    );
+    ```
+
+    #### Create Database
+
+    ``` sql
+    CREATE DATABASE database_name;
+    ```
+
+------------------------------------------------------------------------
+* 
+    ### 2️⃣ ALTER - Changes the structure of an existing table.
+
+    #### Add Column
+
+    ``` sql
+    ALTER TABLE table_name
+    ADD COLUMN column_name datatype;
+    ```
+
+    #### Modify Column
+
+    ``` sql
+    ALTER TABLE table_name
+    ALTER COLUMN column_name TYPE new_datatype;
+    ```
+
+    #### Drop Column
+
+    ``` sql
+    ALTER TABLE table_name
+    DROP COLUMN column_name;
+    ```
+
+------------------------------------------------------------------------
+
+* 
+    ### 3️⃣ DROP - Permanently removes the object and its data.
+
+    #### Drop Table
+
+    ``` sql
+    DROP TABLE table_name;
+    ```
+
+    #### Drop Database
+
+    ``` sql
+    DROP DATABASE database_name;
+    ```
+
+------------------------------------------------------------------------
+* 
+    ### 4️⃣ TRUNCATE - Removes all rows quickly but keeps the table structure.
+
+    ``` sql
+    TRUNCATE TABLE table_name;
+    ```
+
+    Removes all rows but keeps table structure.
+
+------------------------------------------------------------------------
+
+## 🔹 DML (Data Manipulation Language)
+* 
+    ### 1️⃣ INSERT - Adds new data into a table.
+
+    ``` sql
+    INSERT INTO table_name (column1, column2)
+    VALUES (value1, value2);
+    ```
+
+    Insert all columns:
+
+    ``` sql
+    INSERT INTO table_name
+    VALUES (value1, value2, value3);
+    ```
+
+------------------------------------------------------------------------
+* 
+    ### 2️⃣ UPDATE - Modifies existing data.
+
+    ``` sql
+    UPDATE table_name
+    SET column1 = value1,
+        column2 = value2
+    WHERE condition;
+    ```
+
+------------------------------------------------------------------------
+* 
+    ### 3️⃣ DELETE - Removes specific data from a table.
+
+    ``` sql
+    DELETE FROM table_name
+    WHERE condition;
+    ```
+
+    Delete all rows:
+
+    ``` sql
+    DELETE FROM table_name;
+    ```
+
+------------------------------------------------------------------------
+* 
+    ## 🎯 Quick Comparison
+    ```
+    Command  |  Removes Data | Removes Structure
+    ---------| --------------| -------------------
+    DELETE   |  Yes          |  No
+    TRUNCATE |  Yes (all)    |  No
+    DROP     |  Yes          |  Yes
+    ```
