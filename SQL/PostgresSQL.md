@@ -291,6 +291,7 @@
     2. Left Join
     3. Right Join
     4. Full Join
+    5. Self Join
     ```
 
     ### 👨‍💼 employees:
@@ -385,6 +386,25 @@
         | 2      | Suman  | HR        |
         | 4      | Kavita | NULL      |
         | NULL   | NULL   | Finance   |
+
+    ### **5. Self JOIN -**
+    * **SELF JOIN is when a table is joined with itself.**
+    * Used when rows in the same table are related to other rows in that same table.
+    * **Aliases** are compulsory to differentiate the two copies.
+    * ### ✅ Query + Result:
+        ```sql
+        select distinct m1.firstname, m1.surname
+        from cd.members m1, cd.members m2
+        where m1.memid = m2.recommendedby
+        order by m1.surname, m1.firstname
+        ```
+    *   `m1` → Represents the person who recommended someone
+    *   `m2` → Represents the person who was recommended
+        | memid | name  | recommendedby |
+        | ----- | ----- | ------------- |
+        | 1     | Rahul | NULL          |
+        | 2     | Suman | 1             |
+        | 3     | Arjun | 1             |
 
 <br>
 
