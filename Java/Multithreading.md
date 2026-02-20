@@ -85,14 +85,19 @@
     | Use Case         | Protect object data       | Protect class-level data   | Protect critical section  |
 
     ### Disadvantages of Synchronized (Intrinsic Lock)
+    *   Performance issue
     *   No fairness policy
-    *   No try-lock support (only blocking)
+    *   No facility to try for a lock (only blocking)
     *   No interruptible locking
-    *   No read/write lock support    
+- **To overcome these issues we have `java.util.concurrent.locks`**
 
 ## **2. Explicit Locks**
 
 - Explicit lock is a manually controlled lock mechanism provided by `java.util.concurrent.locks`, mainly using `ReentrantLock`.
+
+- We have `Lock as interface` and `ReentrantLock as implementing class`. 
+- **ReentrantLock**  ->  ReentrantLock means a thread can acquire same lock multiple times without any issue. 
+- Internally ReentrantLock increments threads personal count whenever we call lock() and decrements count value whenever thread calls unlock() and lock will be released whenever count reaches 0.
 
 
     ### 🔹 Basic Structure
@@ -149,18 +154,7 @@
 
     ------------------------------------------------------------------------
 
-    ### 🔹 2. unlock()
-
-    -   Releases the lock.
-    -   Must be called after `lock()`.
-
-    ``` java
-    lock.unlock();
-    ```
-
-    ------------------------------------------------------------------------
-
-    ### 🔹 3. tryLock()
+    ### 🔹 2. tryLock()
 
     -   Attempts to acquire the lock.
     -   Does NOT wait.
@@ -178,7 +172,7 @@
 
     ------------------------------------------------------------------------
 
-    ### 🔹 4. tryLock(long time, TimeUnit unit)
+    ### 🔹 3. tryLock(long time, TimeUnit unit)
 
     -   Waits for a specific time to acquire the lock.
     -   Returns `true` if lock is acquired within the time limit.
@@ -189,7 +183,7 @@
 
     ------------------------------------------------------------------------
 
-    ### 🔹 5. lockInterruptibly()
+    ### 🔹 4. lockInterruptibly()
 
     -   Acquires the lock but allows interruption while waiting.
 
@@ -199,14 +193,69 @@
 
     ------------------------------------------------------------------------
 
-    ### 🔹 6. newCondition()
+    ### 🔹 5. unlock()
 
-    -   Creates a `Condition` object.
-    -   Used for advanced thread communication (alternative to wait/notify).
+    -   Releases the lock.
+    -   Must be called after `lock()`.
+    -   To call this method compulsory current thread should owner of the lock otherwise we will get run-time exception saying `IllegalMonitorStateException`
 
     ``` java
-    Condition condition = lock.newCondition();
+    lock.unlock();
     ```
+    
+    <br>
+
+    # **lock() vs lockInterruptibly()**
+
+    ## 🔹 1️⃣ lock()
+
+    ``` java
+    lock.lock();
+    ```
+
+    -   If lock is free → acquires immediately
+    -   If lock is busy → thread waits
+    -   ❌ Cannot be interrupted while waiting
+    -   Must call `unlock()` after acquiring
+
+    If thread is interrupted while waiting →
+    👉 It **still waits**
+
+    ------------------------------------------------------------------------
+
+    ## 🔹 2️⃣ lockInterruptibly()
+
+    ``` java
+    lock.lockInterruptibly();
+    ```
+
+    -   If lock is free → acquires immediately
+    -   If lock is busy → thread waits
+    -   ✅ Can be interrupted while waiting
+    -   Must call `unlock()` after acquiring
+
+    If thread is interrupted while waiting →
+    👉 Throws `InterruptedException`\
+    👉 Stops waiting
+
+    ------------------------------------------------------------------------
+
+    ### 🧠 T1 / T2 Scenario Comparison
+
+    | Situation | Using `lock()` | Using `lockInterruptibly()` |
+    |------------|---------------|-----------------------------|
+    | T1 holds lock | T2 waits | T2 waits |
+    | T2 interrupted while waiting | T2 Still waits | T2 Stops waiting |
+    | T1 interrupted inside critical section | Lock NOT released | Lock NOT released |
+
+    ------------------------------------------------------------------------
+
+    ### 🔥 Very Important Rule
+
+    > Interrupt does NOT release a lock.
+    > It only affects threads waiting to acquire it (if using
+    > `lockInterruptibly()`).
+
     <br>
 
     ### ⚠️ Starvation
@@ -224,6 +273,7 @@
 
     ### 🔥 Fairness Policy
     * Fair lock: Threads acquire the lock in the order they requested it (first-come-first-serve).
+
     ``` java
     ReentrantLock fairLock = new ReentrantLock(true); // Fair lock
     ```
@@ -313,3 +363,7 @@
 - Garbage collection
 
 <br>
+
+## Thread Goup
+* `main()` called by `main thread` and main thread belongs to `main group`
+* The parent of all thread groups in Java is the `system` thread group.

@@ -4,6 +4,19 @@
 * ### **MySQL / PostgreSQL → Software that implements SQL + adds extra features**
 * ### **Caching: Caching is storing frequently accessed data in fast memory to reduce load and improve performance.**
 
+## Topics
+* Joins
+* Aggregations
+* Normalization
+* Indexes
+* Transactions
+* ACID
+* Isolation Levels
+* Locking
+* CAP Theorem
+* Triggers
+
+
 ## **1. Constraints:**
 * **Constraints are rules applied to columns.**
 * Types of constraints:
@@ -536,3 +549,36 @@
     TRUNCATE |  Yes (all)    |  No
     DROP     |  Yes          |  Yes
     ```
+
+<br>
+
+# Normalization
+### ✅ organizing tables to remove redundancy and avoid anomalies.
+
+### Types: 
+1. **1NF**
+2. **2NF**
+3. **3NF**
+
+    ### 1. 1NF 
+    * **👉 Rules:** 
+        - **Every column should have a single value.**
+        - **Each row should be unique, either through a single or multiple columns. Not mandatory to have primary key.**
+
+    ### 2. 2NF
+    * **👉 Rules:**
+        - **Must be in 1NF**
+        -  **No partial dependency** `(Every non-key column must depend on the full composite key)`
+
+            | Dependency Type | Non-key column Depends On       | 2NF?   |
+            | --------------- | ------------------------------- | ------ |
+            | Partial         |      A only or B only           | ❌ No  |
+            | Full            |      A + B together             | ✅ Yes |
+    
+    * **composite key**: A primary key made using two or more columns together.
+
+
+    ### 3. 3NF
+    * **👉 Rules:**
+        - **Must be in 2NF**
+        -  **No transitive dependency** `(Non-key column should NOT depend on another non-key column)`
