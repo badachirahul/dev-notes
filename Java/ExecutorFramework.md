@@ -80,7 +80,7 @@
 
 <br>
 
-## 1️⃣ Basics
+## 1️⃣ **Basics**
 * 
     ### 1. What is Executor Framework?
     * **Thread is low-level way to create threads manually, while `Executor Framework is a high-level API that manages threads efficiently using thread pools.`**
@@ -93,8 +93,11 @@
         ❌ No thread pooling
         ❌ No return value support (Runnable)
 
+    ### 3. What is Thread Pool?
+    * `Thread pool is a pool of already created threads that are reused to execute tasks.`
+
     
-## 2️⃣ Core Interfaces
+## 2️⃣ **Core Interfaces**
 * 
     ### **1. Executor**
 
@@ -184,14 +187,14 @@
 
 <br>
 
-## 3️⃣ Types Thread Pools
+## 3️⃣ **Types of Thread Pools**
 
 1.  **newFixedThreadPool()**
 2.  **newSingleThreadExecutor()**
 3.  **newCachedThreadPool()**
 4.  **newScheduledThreadPool()**
 * 
-    ## 1️⃣ newFixedThreadPool(n)
+    ## **1. newFixedThreadPool(n)**
 
     ``` java
     ExecutorService service = Executors.newFixedThreadPool(n);
@@ -224,7 +227,7 @@
 
     ------------------------------------------------------------------------
 
-    ## 2️⃣ newSingleThreadExecutor()
+    ## **2. newSingleThreadExecutor()**
 
     ``` java
     ExecutorService service = Executors.newSingleThreadExecutor();
@@ -256,7 +259,7 @@
 
     ------------------------------------------------------------------------
 
-    ## 3️⃣ newCachedThreadPool()
+    ## **3. newCachedThreadPool()**
 
     ``` java
     ExecutorService service = Executors.newCachedThreadPool();
@@ -288,7 +291,7 @@
 
     ------------------------------------------------------------------------
 
-    ## 4️⃣ newScheduledThreadPool(n)
+    ## **4. newScheduledThreadPool(n)**
 
     ``` java
     ScheduledExecutorService service =
