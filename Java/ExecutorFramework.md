@@ -294,8 +294,7 @@
     ## **4. newScheduledThreadPool(n)**
 
     ``` java
-    ScheduledExecutorService service =
-        Executors.newScheduledThreadPool(n);
+    ScheduledExecutorService service = Executors.newScheduledThreadPool(n);
     ```
 
     ### 🔹 Threads Created
@@ -307,9 +306,9 @@
     -   Delay-based queue
 
     ### 🔹 Behavior
-
-    Used for: - Scheduled tasks
-    - Periodic tasks
+    - Used for: 
+        - Time-based task execution.
+        - Periodic tasks
 
     Example:
 
