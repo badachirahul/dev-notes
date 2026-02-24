@@ -128,10 +128,10 @@
 
     ✅ Adds:
     - `submit()` → **Takes Runnable or Callable Returns Future**
-    - `shutdown()` → **Stop accepting new tasks, but finish already submitted tasks.**
+    - `shutdown()` → **Stops accepting new tasks, but finish already submitted tasks.**
         - Graceful termination
         - Running + queued tasks complete
-    - `shutdownNow()` → **Stop accepting new tasks, interrupt running tasks, and remove waiting tasks.**
+    - `shutdownNow()` → **Stops accepting new tasks, interrupt running tasks, and remove waiting tasks.**
         - Returns list of tasks that never started
         - Does NOT forcibly kill threads (depends on interruption handling)
     - `invokeAll()` → **Executes a collection of tasks and waits until ALL complete.**
@@ -213,11 +213,11 @@
 
     ### 🔹 Behavior
 
-    If 2 threads:
+        If 2 threads:
 
-        T1 → Task1  
-        T2 → Task2  
-        Task3, Task4 → Waiting in queue
+            T1 → Task1  
+            T2 → Task2  
+            Task3, Task4 → Waiting in queue
 
     ### 🔹 When To Use
 
