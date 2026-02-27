@@ -3,158 +3,158 @@
 ------------------------------------------------------------------------
 
 # 1. GET vs POST Mismatch
+* 
+    ## Mistake
 
-## Mistake
+    HTML form did not specify method="post" but servlet had doPost().
 
-HTML form did not specify method="post" but servlet had doPost().
+    ## What Happened
 
-## What Happened
+    Servlet method was never executed because default form method is GET.
 
-Servlet method was never executed because default form method is GET.
+    ## Correction
 
-## Correction
+    Make sure form method matches servlet method.
 
-Make sure form method matches servlet method.
+    Example:
 
-Example:
-
-``` html
-<form action="add" method="post">
-```
+    ``` html
+    <form action="add" method="post">
+    ```
 
 ------------------------------------------------------------------------
 
 # 2. Forgot Redirect / Forward After Storing Data
+* 
+    ## Mistake
 
-## Mistake
+    Stored data in session or cookie but did not redirect or forward to
+    another servlet.
 
-Stored data in session or cookie but did not redirect or forward to
-another servlet.
+    Example mistake:
 
-Example mistake:
+    ``` java
+    session.setAttribute("data", result);
+    ```
 
-``` java
-session.setAttribute("data", result);
-```
+    ## What Happened
 
-## What Happened
+    Next servlet was never triggered.
 
-Next servlet was never triggered.
+    ## Correction
 
-## Correction
+    Add redirect or forward:
 
-Add redirect or forward:
-
-``` java
-response.sendRedirect("square");
-```
+    ``` java
+    response.sendRedirect("square");
+    ```
 
 ------------------------------------------------------------------------
 
 # 3. NullPointerException (Calling equals on Null)
+* 
+    ## Mistake
 
-## Mistake
+    ``` java
+    checkName.equals("admin");
+    ```
 
-``` java
-checkName.equals("admin");
-```
+    If checkName is null → crash.
 
-If checkName is null → crash.
+    ## What Happened
 
-## What Happened
+    HTTP 500 -- Internal Server Error.
 
-HTTP 500 -- Internal Server Error.
+    ## Correction
 
-## Correction
+    Always compare like this:
 
-Always compare like this:
-
-``` java
-"admin".equals(checkName);
-```
+    ``` java
+    "admin".equals(checkName);
+    ```
 
 ------------------------------------------------------------------------
 
 # 4. Incorrect request.getParameter Usage
+* 
+    ## Mistake
 
-## Mistake
+    ``` java
+    request.getParameter(username);
+    ```
 
-``` java
-request.getParameter(username);
-```
+    username treated as variable, not string literal.
 
-username treated as variable, not string literal.
+    ## Correction
 
-## Correction
+    Always pass parameter name in quotes:
 
-Always pass parameter name in quotes:
+    ``` java
+    request.getParameter("username");
+    ```
 
-``` java
-request.getParameter("username");
-```
-
-Must match HTML input name exactly.
+    Must match HTML input name exactly.
 
 ------------------------------------------------------------------------
 
 # 5. Cookie Created but Not Used Properly
+* 
+    ## Mistake
 
-## Mistake
+    Created cookie but did not redirect.
 
-Created cookie but did not redirect.
+    ``` java
+    response.addCookie(cookie);
+    ```
 
-``` java
-response.addCookie(cookie);
-```
+    ## What Happened
 
-## What Happened
+    Cookie not available in same request.
 
-Cookie not available in same request.
+    ## Correction
 
-## Correction
+    Cookie works only in next request. Add redirect:
 
-Cookie works only in next request. Add redirect:
-
-``` java
-response.sendRedirect("nextServlet");
-```
+    ``` java
+    response.sendRedirect("nextServlet");
+    ```
 
 ------------------------------------------------------------------------
 
 # 6. No Null Check on Session Attribute
+* 
+    ## Mistake
 
-## Mistake
+    ``` java
+    int n = (int) session.getAttribute("data");
+    ```
 
-``` java
-int n = (int) session.getAttribute("data");
-```
+    If attribute is null → NullPointerException.
 
-If attribute is null → NullPointerException.
+    ## Correction
 
-## Correction
+    Use safe casting:
 
-Use safe casting:
-
-``` java
-Integer n = (Integer) session.getAttribute("data");
-if (n != null) {
-    // use n
-}
-```
+    ``` java
+    Integer n = (Integer) session.getAttribute("data");
+    if (n != null) {
+        // use n
+    }
+    ```
 
 ------------------------------------------------------------------------
 
 # 7. Confusion Between Request, Session, and Cookie Scope
+* 
+    ## Mistake
 
-## Mistake
+    Mixing up when data becomes available.
 
-Mixing up when data becomes available.
+    ## Correct Understanding
 
-## Correct Understanding
-
--   Request: Works only in same request (requires forward)
--   Session: Works in same and future requests
--   Cookie: Available only in next request (after browser sends it back)
+    -   Request: Works only in same request (requires forward)
+    -   Session: Works in same and future requests
+    -   Cookie: Available only in next request (after browser sends it back)
 
 ------------------------------------------------------------------------
 
