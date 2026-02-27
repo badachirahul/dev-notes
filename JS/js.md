@@ -2,7 +2,7 @@
 
 ### 1️⃣ Node.js
 * Node.js = JavaScript runtime
-* It allows you to:
+* It allows us to:
     - Run JS outside the browser
     - Build APIs
     - Create backend apps
