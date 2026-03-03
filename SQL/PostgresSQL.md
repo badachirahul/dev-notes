@@ -25,6 +25,7 @@
     3. Primary Keys
     4. Foreign Keys
     5. Check
+    6. Default
 
 ## **2. Main Clauses in a SELECT Query**
 * General order:
