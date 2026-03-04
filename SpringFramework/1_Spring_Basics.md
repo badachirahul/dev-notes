@@ -1,0 +1,154 @@
+## 1️⃣ Spring Basics
+
+- **1. Why Spring?**
+- **2. What is Spring?**
+- **3. Problems with Traditional Java EE**
+- **4. Spring Modules overview**
+
+
+## **1. Why Spring?**
+*   #### `Spring was created to solve problems of traditional Java EE development and make building enterprise applications simpler, loosely coupled, and easier to maintain.`
+
+    #### **1. Simpler:**
+    * **Less code + less complexity.**
+    * **Example:**
+        `Without Spring we write a lot of configuration and object-creation code. Spring automates many things, so development becomes simpler.`
+
+    #### **2. Loosely Coupled:**
+    * **Classes are less dependent on each other.**
+        * **Tightly Coupled Example:**
+            ```java
+            class Car {
+                Engine engine = new PetrolEngine();
+            }
+            ```
+            **Problem:** 
+            `If you want DieselEngine, you must change the code.`
+             ```java
+            class Car {
+                Engine engine = new DieselEngine();
+            }
+            ```
+            `So Car is dependent on PetrolEngine.`
+        <br><br>
+        * **Loosely Coupled Example:**
+            ```java
+            class Car {
+                Engine engine;
+
+                Car(Engine engine){
+                    this.engine = engine;
+                }
+            }
+            ```
+            `Now Car does not know which engine it gets.`
+            - We have to order Spring to inject whichever object we want using `@Qualifier()`:
+                - PetrolEngine
+                - DieselEngine
+                - ElectricEngine
+
+    #### **3. Easier to Maintain:**
+    * **Code becomes easier to update and modify later.**
+    * **Example:**
+            `If the Engine implementation changes (PetrolEngine → ElectricEngine), we don't need to modify the Car class when using loose coupling.`
+
+    #### **Key Idea**
+    * `Tightly Coupled → Class creates its own dependency`
+    * `Loosely Coupled → Dependency is provided from outside (Spring using Dependency Injection)`
+
+<br>
+
+## **2. What is Spring?**
+* **Spring is a Java framework used to build enterprise applications easily.**
+
+<br>
+
+## **3. Problems with Traditional Java EE**
+
+1. Tight coupling between components
+2. Heavy frameworks like EJB (Enterprise Java Beans)
+3. Too much XML configuration
+4. Difficult unit testing
+5. Hard to maintain large applications
+
+<br>
+
+
+
+## **4. Spring Modules Overview**
+Spring Framework is divided into **several major modules**, each responsible for a specific functionality.  
+Developers can use **only the modules they need**.
+
+
+* ### 1️⃣ Core Container
+    *   This is the **foundation of the Spring Framework**.  
+    *   It provides **Dependency Injection (DI)** and manages application objects (Beans).
+
+    ### Submodules
+    *   #### **spring-core**
+        * Provides the **core utilities of the framework**.
+        * Includes basic features like **IoC and Dependency Injection support**.
+
+    *   #### **spring-beans**
+        * Responsible for **creating and managing Spring Beans**.
+        * Handles **bean configuration and lifecycle**.
+
+    *   #### **spring-context**
+        * Builds on top of core and beans modules.
+        * Provides the **ApplicationContext container**, which is used to access beans and resources.
+
+    *   #### **spring-expression (SpEL)**
+        * Provides the **Spring Expression Language**.
+        * Used to evaluate expressions in configuration and annotations.
+
+* ### 2️⃣ AOP and Instrumentation
+    *   Provides support for **Aspect-Oriented Programming (AOP)**.  
+    *   Helps separate **cross-cutting concerns** like logging, security, and transactions.
+
+    ### Submodules
+    *   #### **spring-aop**
+        * Provides **AOP functionality** in Spring.
+        * Allows developers to apply logic like logging or security without modifying business code.
+
+    *   #### **spring-aspects**
+        * Provides **integration with AspectJ**, a powerful AOP framework.
+
+    *   #### **spring-instrument**
+        * Provides **class instrumentation support**.
+        * Used for advanced features like **load-time weaving**.
+
+
+* ### 3️⃣ Data Access / Integration
+    *   Provides support for **database access and transaction management**.
+    *   Helps integrate Spring with different persistence technologies.
+
+    ### Submodules
+    *   #### **spring-jdbc**
+        * Simplifies **JDBC database operations**.
+        * Reduces boilerplate code required in traditional JDBC.
+
+    *   #### **spring-tx**
+        * Provides **transaction management** for database operations.
+
+    *   #### **spring-orm**
+        * Integrates Spring with **ORM frameworks** like Hibernate and JPA.
+
+    *   #### **spring-jms**
+        * Provides support for **Java Messaging Service (JMS)**.
+
+
+* ### 4️⃣ Web Layer
+    *   Used to build **web applications and REST APIs**.
+    *   Provides support for **web-based architectures like MVC**.
+
+    ### Submodules
+    *   #### **spring-web**
+        * Provides basic **web integration features**.
+        * Includes utilities for handling **web requests and REST services**.
+
+    *   #### **spring-webmvc**
+        * Implements the **Spring MVC framework**.
+        * Used to build **web applications following the Model-View-Controller pattern**.
+
+    *   #### **spring-websocket**
+        * Provides support for **WebSocket-based real-time communication**.

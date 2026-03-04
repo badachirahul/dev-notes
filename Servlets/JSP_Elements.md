@@ -63,9 +63,12 @@
     | request     |
     | response    |
     | session     |
-    | application |
     | out         |
+    | exception   |
     | config      |
     | pageContext |
     | page        |
-    | exception   |
+    | application |
+
+
+### -> All library JARs must be placed in WEB-INF/lib so the Servlet container (e.g., Tomcat) can load them into the application classpath.

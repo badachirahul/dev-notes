@@ -1,4 +1,4 @@
-# Servlet Data Transfer Mechanisms -- Complete Detailed Notes
+# Servlet Data Transfer Mechanisms
 
 ## **1. RequestDispatcher (Forward)**
 * 
