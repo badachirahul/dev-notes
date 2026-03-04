@@ -1,10 +1,9 @@
 ## 1️⃣ Spring Basics
 
-- **1. Why Spring?**
-- **2. What is Spring?**
-- **3. Problems with Traditional Java EE**
-- **4. Spring Modules overview**
-
+**1. Why Spring?**<br>
+**2. What is Spring?**<br>
+**3. Problems with Traditional Java EE**<br>
+**4. Spring Modules overview**<br>
 
 ## **1. Why Spring?**
 *   #### `Spring was created to solve problems of traditional Java EE development and make building enterprise applications simpler, loosely coupled, and easier to maintain.`
