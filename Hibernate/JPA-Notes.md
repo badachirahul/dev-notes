@@ -7,6 +7,9 @@
 -   Benefits of ORM
 -   ORM tools overview
 * **Entity** - `An Entity is a Java class that represents a table in the database.`
+* **EntityManager** - `Is a JPA interface which manages the entities created by the developer and handles all database operations on them — like saving, finding, updating and deleting.`
+
+
 
     ### 1️⃣ What is ORM (Object Relational Mapping)?
     * `ORM is a concept/technique, that maps Java Class  to a  Database Table.`
