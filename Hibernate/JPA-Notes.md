@@ -15,7 +15,7 @@
     * `ORM is a concept/technique, that maps Java Class  to a  Database Table.`
 
     ### 2️⃣ What is JPA (Java Persistence API)?
-    * `JPA is a specification that defines rules and interfaces for ORM in Java.`
+    * `JPA is a specification that defines rules and provides interfaces.`
     * **specification** - A set of rules and interfaces that define how something should work, but do not provide the actual implementation.
     * **But JPA does NOT perform ORM itself. It only defines how ORM should work.**
 
@@ -32,6 +32,7 @@
     ### 3️⃣ What is Hibernate?
     * `Hibernate is a framework that implements JPA and performs the ORM.`
 
+##
 
 <br>
 
