@@ -1,4 +1,4 @@
-## Spring security request flow:
+## 1. Spring Security Filter Chain Flow:
 
 ```
 User types username=john & password=secret in the form
@@ -89,9 +89,17 @@ DaoAuthenticationProvider receives the token
    - It gets UserDetails (username, password, roles)
       Then compares:
       input password vs DB password
+   
+      If password is correct: 
+         1. DaoAuthenticationProvider creates NEW "UsernamePasswordAuthenticationToken"
 
-      If correct:
-         create new authenticated token (authenticated = true)
+         2. In this:
+            principal = UserDetails
+            credentials = null
+            authenticated = true
+            authorities = roles
+
+         3. This token is returned
 
       If wrong:
          throw exception
@@ -107,113 +115,22 @@ After successful authentication:
    5. SecurityContext is stored → user remains logged in for next requests
 ```
 
-### Session:
-```
-After authentication:
-
-1. User stored in SecurityContextHolder (temporary)
-
-2. When request ends:
-   SecurityContextPersistenceFilter stores it into HttpSession
-
-Now user is saved permanently for next requests
-```
-
-```
-POST /auth/logout
-
-1. LogoutFilter handles request
-
-2. It clears SecurityContextHolder
-   → user removed
-
-3. It invalidates HttpSession
-   → session deleted
-
-4. Removes session cookie
-
-5. Redirect to /blog/home
+### 🔥 Same in clean words (interview-ready)
+1. Browser sends request
+2. Tomcat receives and creates request/response objects
+3. Request enters Servlet Filter Chain
+4. If Spring Security is present:
+    - DelegatingFilterProxy delegates to SecurityFilterChain
+    - Security filters perform authentication and authorization
+    - AuthenticationManager and AuthenticationProvider are involved
+    - Result stored in SecurityContextHolder
+5. Request returns to filter chain
+6. Finally reaches DispatcherServlet
 
 
-Login → store user in session
-Logout → remove user + delete session
-```
+## DelegatingFilterProxy:
+- `DelegatingFilterProxy is a servlet filter that delegates request from the 'Servlet Filter Chain' to the Spring-managed SecurityFilterChain bean, because servlet filters cannot directly access Spring beans.`
+- **`Delegating-` means forwarding the request handling to another component instead of processing it itself.**
 
-
-<br>
-
-## Basics:
-
-### 1. What is a Filter Chain?
-- `Multiple filters connected together. The request passes through them one by one in order:`
-   ```
-   HttpServletRequest + HttpServletResponse
-      ↓
-   Filter 1
-      ↓
-   Filter 2
-      ↓
-   Filter 3
-      ↓
-   Filter N
-      ↓
-   Your Application (DispatcherServlet)
-   ```
-
-
-### 2. DelegatingFilterProxy
-* **Its only job is to delegate the request to FilterChainProxy which lives in Spring's Application Context.**
-* It lives in the Servlet Filter Chain
-* **Why is this needed?**
-   - Because Tomcat and Spring are two different worlds:
-      ```
-      Tomcat manages Servlet filters
-      Spring manages its own beans in Application Context
-
-      DelegatingFilterProxy connects these two worlds:
-      ```
-
-* Spring Boot automatically registers DelegatingFilterProxy into the Servlet Filter Chain.
-   ```
-   How?
-   When your Spring Boot application starts:
-
-   - Spring Boot's auto configuration kicks in
-   - It sees spring-security is on the classpath
-   - It automatically creates DelegatingFilterProxy
-   - It registers it into Tomcat's Servlet Filter Chain
-   ```
-
-### 3. FilterChainProxy
-* `When a request comes in, it checks the request URL and pick's the matching Security Filter Chain.`
-
-
-### 4. Example: What YOUR config triggers
-1. **Because of .authorizeHttpRequests(...)**
-
-   - `👉 Spring adds:`
-   - `AuthorizationFilter`
-      → checks roles like AUTHOR / ADMIN
-
-2. **Because of .formLogin(...)**
-
-   - `👉 Spring adds:`
-   - `UsernamePasswordAuthenticationFilter` <br>
-      → handles /auth/login POST <br>
-      Login page handling filter
-
-3. **Always added (core filters)**
-   - `Even if you don’t configure:`
-   - `SecurityContextHolderFilter` <br>
-      → stores user authentication <br>
-      ExceptionTranslationFilter <br>
-      → handles 401 / 403
-   * **Table:**
-      | Your Config               | What Spring Adds                     |
-      | ------------------------- | ------------------------------------ |
-      | `authorizeHttpRequests()` | AuthorizationFilter                  |
-      | `formLogin()`             | UsernamePasswordAuthenticationFilter |
-      | `exceptionHandling()`     | ExceptionTranslationFilter           |
-      | `csrf()`                  | CsrfFilter (removed in your case)    |
-      | `logout()`                | LogoutFilter                         |
-      | (always)                  | SecurityContextHolderFilter          |
+## SecurityContext: 
+* `SecurityContext is an interface that holds the Authentication object, and at runtime it is implemented by SecurityContextImpl.`
