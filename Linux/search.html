@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #0f0f0f;
+            --surface: #212121;
+            --surface2: #272727;
+            --border: #3f3f3f;
+            --text-primary: #f1f1f1;
+            --text-secondary: #aaaaaa;
+            --accent: #ff0000;
+            --sidebar-w: 240px;
+            --header-h: 56px;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text-primary);
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
+        }
+
+        /* ── HEADER ── */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: var(--header-h);
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .hamburger {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-primary);
+            padding: 8px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s;
+        }
+        .hamburger:hover { background: var(--surface2); }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+        }
+        .logo-play {
+            background: var(--accent);
+            border-radius: 5px;
+            width: 34px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .logo-play::after {
+            content: '';
+            border-left: 10px solid white;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            margin-left: 2px;
+        }
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+        .logo-country {
+            font-size: 10px;
+            color: var(--text-secondary);
+            align-self: flex-end;
+            margin-bottom: 3px;
+        }
+
+        /* Search */
+        .header-center {
+            flex: 1;
+            max-width: 600px;
+            margin: 0 40px;
+            display: flex;
+        }
+        .search-form {
+            display: flex;
+            flex: 1;
+        }
+        .search-input {
+            flex: 1;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-right: none;
+            border-radius: 40px 0 0 40px;
+            padding: 0 16px;
+            color: var(--text-primary);
+            font-size: 16px;
+            font-family: 'Roboto', sans-serif;
+            outline: none;
+            height: 40px;
+            transition: border-color 0.2s;
+        }
+        .search-input:focus {
+            border-color: #1c62b9;
+            background: #121212;
+        }
+        .search-input::placeholder { color: var(--text-secondary); }
+        .search-btn {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-left: none;
+            border-radius: 0 40px 40px 0;
+            padding: 0 20px;
+            cursor: pointer;
+            color: var(--text-primary);
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s;
+        }
+        .search-btn:hover { background: #3d3d3d; }
+        .search-btn svg { width: 20px; height: 20px; }
+
+        /* Header right — only Sign In */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .sign-in-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #3ea6ff;
+            border-radius: 20px;
+            padding: 7px 14px;
+            background: none;
+            color: #3ea6ff;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+            transition: background 0.15s;
+        }
+        .sign-in-btn:hover { background: rgba(62,166,255,0.1); }
+
+        /* ── SIDEBAR ── */
+        aside {
+            position: fixed;
+            top: var(--header-h);
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-w);
+            background: var(--bg);
+            overflow-y: auto;
+            padding: 12px 0;
+            z-index: 90;
+            transition: transform 0.25s ease, opacity 0.25s ease;
+        }
+        aside.hidden {
+            transform: translateX(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+        aside::-webkit-scrollbar { width: 0; }
+
+        .nav-group {
+            border-bottom: 1px solid var(--border);
+            padding: 12px 0;
+        }
+        .nav-group:last-child { border-bottom: none; }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            padding: 0 24px;
+            height: 40px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: background 0.1s;
+            margin: 0 8px;
+        }
+        .nav-item:hover { background: var(--surface2); }
+        .nav-item.active { background: var(--surface2); font-weight: 500; }
+        .nav-item svg { width: 24px; height: 24px; flex-shrink: 0; }
+
+        .nav-section-title {
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 24px;
+            color: var(--text-primary);
+        }
+
+        /* ── MAIN ── */
+        main {
+            margin-left: var(--sidebar-w);
+            margin-top: var(--header-h);
+            padding: 24px 24px;
+            transition: margin-left 0.25s ease;
+        }
+        main.expanded {
+            margin-left: 0;
+        }
+
+        /* ── EMPTY STATE ── */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+            gap: 16px;
+            color: var(--text-secondary);
+        }
+        .empty-state svg { width: 80px; height: 80px; opacity: 0.4; }
+        .empty-state p { font-size: 16px; }
+
+        /* ── VIDEO GRID ── */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px 8px;
+        }
+
+        /* ── VIDEO CARD ── */
+        .video-card-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            animation: fadeUp 0.4s ease both;
+        }
+        .video-card {
+            cursor: pointer;
+            padding: 0 8px 8px;
+            border-radius: 12px;
+            transition: background 0.15s;
+        }
+        .video-card:hover { background: var(--surface2); }
+
+        /* Thumbnail */
+        .thumbnail-wrap {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--surface);
+            margin-bottom: 12px;
+        }
+        .thumbnail-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        .video-card:hover .thumbnail-wrap img { transform: scale(1.03); }
+
+        /* Card info */
+        .card-info { display: flex; gap: 12px; align-items: flex-start; }
+        .channel-avatar {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #555, #888);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+        }
+        .card-meta { flex: 1; min-width: 0; }
+        .card-title {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        .card-channel {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .verified-icon { width: 14px; height: 14px; color: var(--text-secondary); }
+        .card-stats { font-size: 13px; color: var(--text-secondary); }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            aside { transform: translateX(-100%); opacity: 0; pointer-events: none; }
+            aside.visible { transform: translateX(0) !important; opacity: 1 !important; pointer-events: auto !important; }
+            main { margin-left: 0 !important; padding: 16px 12px; }
+            .header-center { margin: 0 10px; }
+        }
+
+        /* Upload button */
+        .upload-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-primary);
+            padding: 8px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s;
+            text-decoration: none;
+            gap: 4px;         /* add this line */
+            padding: 7px 12px; /* change from padding: 8px */
+            border-radius: 20px; /* change from 50% */
+        }
+        .upload-btn:hover { background: var(--surface2); }
+        .upload-btn svg { width: 24px; height: 24px; }
+
+        /* Profile circle */
+        .profile-wrapper { position: relative; }
+        .profile-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.2s;
+            background: var(--surface2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .profile-circle:hover { border-color: var(--border); }
+        .profile-circle img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .profile-initial {
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+            text-transform: uppercase;
+            pointer-events: none;
+        }
+
+        /* Dropdown */
+        .profile-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: #282828;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            min-width: 180px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            z-index: 200;
+            animation: dropIn 0.15s ease;
+        }
+        .profile-dropdown.open { display: block; }
+        @keyframes dropIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            font-size: 14px;
+            color: var(--text-primary);
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.1s;
+            background: none;
+            border: none;
+            width: 100%;
+            font-family: 'Roboto', sans-serif;
+        }
+        .dropdown-item:hover { background: var(--surface2); }
+        .dropdown-item svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--text-secondary); }
+        .dropdown-divider { height: 1px; background: var(--border); margin: 4px 0; }
+
+        .search-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .search-card {
+            display: flex;
+            gap: 16px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .search-thumb {
+            width: 360px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .search-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .search-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .search-channel {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .search-stats {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .search-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .search-channel {
+            line-height: 32px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header>
+    <div class="header-left">
+        <!-- Hamburger toggles sidebar open/close -->
+        <button class="hamburger" id="hamburgerBtn" aria-label="Toggle sidebar">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+            </svg>
+        </button>
+
+        <!-- Logo redirects to home -->
+        <a class="logo" th:href="@{/youtube/home}">
+            <div class="logo-play"></div>
+            <span class="logo-text">YouTube</span>
+            <span class="logo-country">IN</span>
+        </a>
+    </div>
+
+    <div class="header-center">
+        <form class="search-form" th:action="@{/youtube/search}" method="get">
+            <input class="search-input"
+                   type="text"
+                   name="q"
+                   placeholder="Search"
+                   th:value="${keyword}">
+            <button class="search-btn" type="submit">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                </svg>
+            </button>
+        </form>
+    </div>
+
+    <div class="header-right">
+
+        <!-- Admin button — only visible to admins -->
+        <a sec:authorize="hasRole('ADMIN')"
+           th:href="@{/youtube/admin/dashboard}"
+           class="upload-btn"
+           title="Admin Dashboard">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+            </svg>
+            <span style="font-size:14px; font-weight:500;">Admin</span>
+        </a>
+
+        <!-- Upload: only when logged in -->
+        <a sec:authorize="isAuthenticated()"
+           th:href="@{/youtube/video/upload}"
+           class="upload-btn"
+           title="Upload video">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+            </svg>
+            <span style="font-size:14px; font-weight:500;">Upload</span>
+        </a>
+
+        <!-- Sign in: only when NOT logged in -->
+        <button sec:authorize="isAnonymous()" class="sign-in-btn"
+                onclick="window.location.href='/login'">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+            </svg>
+            Sign in
+        </button>
+
+        <!-- Profile circle + dropdown: only when logged in -->
+        <div sec:authorize="isAuthenticated()" class="profile-wrapper">
+            <div class="profile-circle" id="profileCircle">
+                    <span class="profile-initial"
+                          th:text="${#strings.substring(#authentication.getName(), 0, 1)}">U</span>
+            </div>
+            <div class="profile-dropdown" id="profileDropdown">
+                <a th:href="@{/youtube/user/profile}" class="dropdown-item">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                    </svg>
+                    Profile
+                </a>
+                <div class="dropdown-divider"></div>
+                <form th:action="@{/logout}" method="post" style="margin:0">
+                    <button type="submit" class="dropdown-item">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                        </svg>
+                        Sign out
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</header>
+
+<!-- ── SIDEBAR ── -->
+<aside id="sidebar">
+    <div class="nav-group">
+        <a class="nav-item active" th:href="@{/youtube/home}">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+            Home
+        </a>
+        <a class="nav-item" href="#">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M10 18v-2.5l7.5-7.5 2.5 2.5L12.5 18H10zm10.7-9.3l-1.4-1.4c-.2-.2-.5-.2-.7 0l-1.1 1.1 2.5 2.5 1.1-1.1c.2-.2.2-.5 0-.7zM3 18h4.5l7-7-4.5-4.5-7 7V18z"/>
+            </svg>
+            Subscriptions
+        </a>
+    </div>
+
+    <div class="nav-group">
+        <div class="nav-section-title">You</div>
+        <a class="nav-item" th:href="@{/youtube/user/dashboard}">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M22 16V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm-11-4l2.03 2.71L16 11l4 5H8l3-4zM2 6v14c0 1.1.9 2 2 2h14v-2H4V6H2z"/>
+            </svg>
+            Your videos
+        </a>
+        <a class="nav-item" th:href="@{/youtube/user/history}">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M13 3a9 9 0 1 0 9 9h-2a7 7 0 1 1-7-7v3l4-4-4-4v3zm-1 5v5l4.25 2.52.77-1.28-3.52-2.09V8H12z"/>
+            </svg>
+            Watch History
+        </a>
+        <a class="nav-item" href="#">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            Liked videos
+        </a>
+    </div>
+</aside>
+
+<!-- ── MAIN CONTENT ── -->
+<main id="mainContent">
+
+    <!-- ── EMPTY STATE (your original logic, untouched) ── -->
+    <div th:if="${#lists.isEmpty(videos)}">
+        <div class="empty-state">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/>
+            </svg>
+            <p>No videos available.</p>
+        </div>
+    </div>
+
+    <!-- ── VIDEO GRID (your original loop, untouched) ── -->
+    <div th:if="${#lists.isEmpty(videos)}">
+        <div class="empty-state">
+            <p>No results found for "<span th:text="${keyword}"></span>"</p>
+        </div>
+    </div>
+
+    <div class="search-list">
+        <div th:each="video : ${videos}">
+            <a th:href="@{/youtube/video/watch/{id}(id=${video.id})}" class="search-card">
+
+                <!-- Thumbnail -->
+                <img th:src="${video.thumbnailUrl}" class="search-thumb"/>
+
+                <!-- Info -->
+                <div class="search-info">
+
+                    <!-- Title -->
+                    <div class="search-title" th:text="${video.title}"></div>
+
+                    <!-- Views + Date -->
+                    <div class="search-stats">
+                        <span th:text="${video.viewsCount}"></span> views •
+                        <span th:text="${#temporals.format(video.createdAt, 'dd MMM yyyy')}"></span>
+                    </div>
+
+                    <!-- Channel -->
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+                        <!-- Circle -->
+                        <div style="
+                            width:32px;
+                            height:32px;
+                            border-radius:50%;
+                            background:#555;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            font-size:14px;
+                            font-weight:600;
+                            color:white;
+                        "
+                             th:text="${#strings.substring(video.channelName,0,1)}">
+                        </div>
+                        <!-- Channel name -->
+                        <div class="search-channel" th:text="${video.channelName}"></div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="search-desc" th:text="${video.description}"></div>
+
+                </div>
+
+            </a>
+        </div>
+    </div>
+
+</main>
+
+<script>
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const sidebar      = document.getElementById('sidebar');
+    const mainContent  = document.getElementById('mainContent');
+
+    let sidebarOpen = true;
+
+    hamburgerBtn.addEventListener('click', () => {
+        sidebarOpen = !sidebarOpen;
+        if (sidebarOpen) {
+            sidebar.classList.remove('hidden');
+            mainContent.classList.remove('expanded');
+        } else {
+            sidebar.classList.add('hidden');
+            mainContent.classList.add('expanded');
+        }
+    });
+
+    // Profile dropdown
+    const profileCircle   = document.getElementById('profileCircle');
+    const profileDropdown = document.getElementById('profileDropdown');
+    if (profileCircle && profileDropdown) {
+        profileCircle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('open');
+        });
+        document.addEventListener('click', () => profileDropdown.classList.remove('open'));
+        profileDropdown.addEventListener('click', (e) => e.stopPropagation());
+    }
+</script>
+
+</body>
+</html>

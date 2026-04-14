@@ -90,9 +90,16 @@
 
 ## **Entity Relationships**
 
-1. OneToOne
-2. OneToMany or ManyToOne
-3. ManyToMany
+1. `OneToOne`
+2. `OneToMany or ManyToOne`
+3. `ManyToMany`
+
+| Concept     | Meaning           |
+| ----------- | ----------------- |
+| Owning side | FK holder         |
+| Child       | FK holder         |
+| Parent      | Referenced entity |
+
 
 ### 2. `OneToMany` or `ManyToOne`
 

@@ -12,13 +12,12 @@ Browser encodes them into:
    ↓
    ↓
 Browser wraps them into an HTTP Request:
-
    POST /auth/login HTTP/1.1                        → Request Line `("Hey server, I am sending data to /auth/login using HTTP version 1.1")`
    Host: localhost:8080                             → Headers `(metadata ABOUT the request)`
    Content-Type: application/x-www-form-urlencoded
    Content-Length: 27
                                                     → Blank Line
-   username=john&password=secret                    → Body `(actual data OF the request)`
+   username=john&password=secret                    → Body `(actual data Of the request)`
    ↓
    ↓
 HTTP  → travels as plain text  → anyone can intercept and read credentials (NOT SAFE)
