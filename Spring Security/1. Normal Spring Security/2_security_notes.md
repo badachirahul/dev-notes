@@ -109,3 +109,14 @@ Logout → remove user + delete session
       | `csrf()`                  | CsrfFilter (removed in your case)    |
       | `logout()`                | LogoutFilter                         |
       | (always)                  | SecurityContextHolderFilter          |
+
+
+### ❌ When you DON’T need CSRF meta
+* `GET requests only`
+* `Navigation links (anchor tags)`
+* `Page rendering`
+
+### 🧠 Rule (remember this)
+* `JS fetch POST → needs CSRF meta ✅`
+* `HTML form POST → auto handled ✅`
+* `GET requests → no CSRF ❌`
