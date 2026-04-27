@@ -1,403 +1,719 @@
-- Operators are used to make commands more powerful.
+# Linux Commands Reference
 
-- 📂 For FILES:
-| Permission  | Meaning                       |
-| ----------- | ---------------------------- |
-| r (read)    | can open & view file content |
-| w (write)   | can modify file              |
-| x (execute) | can run file as program      |
+## Core Concepts
 
+- **Operators** are used to make commands more powerful.
+- **Flags** are used to modify how a command works.
+	- Short flags → -l, -a, -r
+	- Long flags → --help, --version
 
-- 📁 For FOLDERS (important difference!)
-| Permission  | Meaning                    |
-| ----------- | -------------------------- |
-| r (read)    | can list files (ls)        |
-| w (write)   | can create/delete files    |
-| x (execute) | can enter/open folder (cd) |
+---
 
+## File & Folder Permissions
 
-1. man - (Manual)
-   - shows manual (help) pages for Linux commands. 
-   - man is used to learn any command in Linux.
-   - ex: man ls
+### For Files
 
-2. cd - (Change Directory) { .(dot) , ..(double Dot), ~(tilde), -(dash) }
-   - Used for changing directory (folder).
-   - ex: cd Documents
-   
-   	- cd .   - stays in current directory.  
-   	           ex: cd .
+| Permission    | Meaning                       |
+|---------------|-------------------------------|
+| `r` (read)    | Can open & view file content  |
+| `w` (write)   | Can modify file               |
+| `x` (execute) | Can run file as program       |
 
-	- cd ..  - moves one level up (parent folder).  
-	           ex: cd ..
+### For Folders
 
-	- cd ~   - goes to home directory.   (~ = home)  
-	           ex: cd ~
+| Permission    | Meaning                          |
+|---------------|----------------------------------|
+| `r` (read)    | Listing directory content        |
+| `w` (write)   | Create/delete directory content  |
+| `x` (execute) | Opening directory (`cd`)         |
 
-	- cd -   - goes to previous directory.  
-	           ex: cd -
+---
 
-	Understanding the difference bt .. and -
-	Case 1: Step by step
-		cd home
-		cd rahul
-		cd Downloads     Now we are in:  /home/rahul/Downloads
-		
-		Now:
-		👉 cd .. → goes to /home/rahul (parent folder)
-		👉 cd - → goes to /home/rahul (previous folder)
+## Running Multiple Commands Together
 
-		👉 Here BOTH look same ✅ (by coincidence)
-		
-	Case 2: Direct jump
-		cd /home/rahul/Downloads          Now we came directly from /home
-		
-		Now:
-		👉 cd .. → goes to /home/rahul
-		👉 cd - → goes back to /home
+| Symbol | Meaning                            |
+|--------|------------------------------------|
+| `&&`   | Run second only if first succeeds  |
+| `;`    | Run second anyway                  |
+| `\|`   | Pass output to next command        |
 
-		👉 Now they are DIFFERENT ✅
-		
+```bash
+# Using &&  (recommended)
+mkdir -p five/six/seven && touch five/six/{c.txt,seven/error.log}
 
-3. mkdir - (Make Directory)
-   - creates a new directory (folder)
-   - ex: mkdir projects
-   
-   Note: - mkdir -p = create multiple parent folders automatically. (p means parents)
-   	 - ex: mkdir -p dev/java/project1
-	 
-	 
-4. mv - (Move)
-   - moves or renames files and folders.
-   - move: mv file1.txt Documents/
-   - rename: - syntax: mv old_name new_name
-	     -      ex: mv oldname.txt newname.txt
-	     
-   Note: We have these files:  file1.txt   file2.txt   our-dog.txt
-         - Rename to an EXISTING name
-         - mv file1.txt file2.txt
-         - Before: file1.txt   file2.txt   our-dog.txt
-         - After: file2.txt   our-dog.txt
-          
-	👉 Old file2.txt is deleted
-	👉 file1.txt becomes file2.txt
-	(so still only one file2.txt remains)
-		    
-		    
-5. cp - (Copy)
-   - copies files and folders.   
-   - File: syntax: cp source_file destination_file
-               ex: cp file1.txt file2.txt
-          
-   - Folder: syntax: cp -r source_folder destination_folder
-             ex: cp -r project backup_project
-             
-   - here, (-r = recursive) and Without -r → folder won’t copy ❌
-                                With -r → full folder + inside files copy
+# Using ;
+mkdir -p five/six/seven ; touch five/six/{c.txt,seven/error.log}
+```
 
-   
-   
-6. ls - (List)
-   - lists files and folders in a directory.
-   - ex: ls
-   - Important useful flag: 
-	- ls -l   - lists all files in long format (details like size, permission, owner).  
-		  - ex: ls -l
+---
 
-	- ls -a   - lists all files including hidden files.   (-a = all)  
-		  - ex: ls -a
+## Port Numbers
 
-	- ls -lh  - lists all files in long format with sizes in human readable form (KB, MB, GB).  
-		  - ex: ls -lh
+| Port range  | Who can use       |
+|-------------|-------------------|
+| 1 – 1023    | Only root (`sudo`)|
+| 1024+       | Normal users      |
 
-	- ls -la  - lists all files in long format including hidden files.  
-		  - ex: ls -la
-		 
-		 
-		ls -l = detailed list
-		ls -a = include hidden files
-		ls -lh = detailed + readable size
-		ls -la = detailed + hidden files
-		
-		
-7. pwd - (Print Working Directory)
-   - prints current directory path
-   - pwd = show current location (folder path)	
-   
+---
 
-8. rm - (Remove)
-   - deletes files and folders.
-   - ex: rm file1.txt
-   - Important useful flag:
-	- rm -r   - deletes folders and all files inside (no confirmation).   (-r = recursive)  
-		  - ex: rm -r myFolder
+## Managing Software
 
-	- rm -i   - asks confirmation before deleting.   (-i = interactive)  
-		  - ex: rm -i file1.txt
+### Install & Uninstall
 
-	- rm -ri  - deletes folder with confirmation.  
-		  - ex: rm -ri myFolder
+| Action                        | Command                             | Explanation                         |
+|-------------------------------|-------------------------------------|-------------------------------------|
+| Install single package        | `sudo apt install htop`             | Installs htop                       |
+| Install multiple packages     | `sudo apt install htop vim nginx`   | Installs htop, vim, nginx together  |
+| Uninstall single package      | `sudo apt remove nginx`             | Removes nginx (keeps config files)  |
+| Uninstall multiple packages   | `sudo apt remove nginx vim htop`    | Removes many apps at once           |
+| Completely uninstall (clean)  | `sudo apt purge nginx`              | Removes nginx + config files        |
 
-	- rm -f   - force delete without asking (even protected files).   (-f = force)  
-		  - ex: rm -f file1.txt
+### Installation Methods in Ubuntu
 
-9. chmod - (Change Mode)
-   - changes file/folder permissions.
-   - We can change permission in 3 different ways:
-     i.   Numeric (Octal) method — MOST COMMON
-     ii.  Symbolic (rwx) method
-     iii. Mixed (multiple at once)
-     
-     i. Numeric (Octal) method: 
-        - Format: chmod XYZ file (Where: X = owner, Y = group, Z = others)
-	- Each permission has value:
-	  r = 4
-	  w = 2
-	  x = 1
-	  - = 0
-	  
-	- Table:
-	  | Permissions | Calculation | Number |
-	  |-------------|-------------|--------|
-	  | ---         | 0+0+0       | 0      |
-	  | r--         | 4+0+0       | 4      |
-	  | rw-         | 4+2+0       | 6      |
-	  | r-x         | 4+0+1       | 5      |
-	  | rwx         | 4+2+1       | 7      |
-	 
-	- ex: chmod 755 file.txt
-	      chmod 644 file.txt
-	      chmod 600 secret.txt
-	      
+| Method      | Example Command           | Purpose                                        |
+|-------------|---------------------------|------------------------------------------------|
+| `apt`       | `sudo apt install nginx`  | Default Ubuntu package manager (most common)   |
+| `snap`      | `sudo snap install code`  | Universal packages, mainly desktop apps        |
+| `flatpak`   | `flatpak install app`     | Cross-Linux distribution apps                  |
+| `.deb` file | `sudo dpkg -i file.deb`   | Manual package installation                    |
 
-     ii. Symbolic (rwx) method:
-          - Format: chmod [who][operator][permission] file
-          - 👥 who:
-		u = owner
-		g = group
-		o = others
-		a = all
-	 - ➕ operators:
-		+ = add
-		- = remove
-		= = set exactly
-	 - ex:  chmod u+x file.sh  (add execute permission for owner)
-		chmod g-w file.txt (remove write permission for group)  
-		chmod o=r file.txt (set only read permission for others (overwrites old perms) ) 
-		chmod a+r file.txt (add read permission for all (owner, group, others))
+---
+<br>
 
-      iii. Mixed (multiple at once)
-           - ex: chmod u=rwx,g=rx,o=r file.txt
-           
+## Core Commands
 
-10. chown – (Change Owner)
-    - changes file/folder owner and group.   Full form: Change Owner  
-    - ex: sudo chown user file.txt
+### 1. `man` — Manual
 
-    📁 For files:
-        📌 Change only owner:
-	  sudo chown newUser file.txt
-	  👉 owner becomes newUser
-	  👉 group remains same
+Shows manual (help) pages for Linux commands.
 
-        📌 Change owner + group together:
-	  sudo chown newUser:newGroup file.txt
-	  👉 owner → newUser
-	  👉 group → newGroup
+```bash
+man ls
+```
 
-        📌 Change only group:
-	  sudo chown :newGroup file.txt
-	  👉 owner unchanged
-	  👉 group changed	
-	
-    📁 For folders:
-	📌 Only folder (not inside):
-	   ex: sudo chown newUser:newGroup folderName
+---
 
-	📌 Folder + all contents:
-	   ex: sudo chown -R newUser:newGroup folderName
-	👉 -R = recursive
-     
+### 2. `cd` — Change Directory
 
-11. sudo - (Super User Do)
-    - runs a command with admin (root) privileges.
-    - ex: sudo apt install tree
-	
-     🧠 What does sudo do?
-	👉 Temporarily gives you root (administrator) power
-	👉 Only for that one command
-	
-     📌 Why sudo is needed:
-	• install software
-	• change owner (chown)
-	• edit system files
-	• system-level changes
+Used for changing directory (folder).
 
+```bash
+cd Documents
+```
 
-12. apt - (Advanced Package Tool)
-    - installs, updates, and removes software packages.  
-    - ex: sudo apt install tree 
-    
-    📌 Common useful commands:
-        - sudo apt update      - refresh package list
-        - sudo apt upgrade     - upgrade installed software
-        - sudo apt install pkg - install software
-        - sudo apt remove pkg  - remove software
-    
-   🧠 apt usually needs sudo
+| Variant  | Behaviour                              |
+|----------|----------------------------------------|
+| `cd .`   | Stays in current directory             |
+| `cd ..`  | Moves one level up (parent folder)     |
+| `cd ~`   | Goes to home directory (`~` = home)    |
+| `cd -`   | Goes to previous directory             |
+| `cd /`   | Goes to root directory                 |
 
+**Understanding `..` vs `-`**
 
-13. touch -
-    - creates a new empty file (or If file already exists updates timestamp). 
-    - ex: touch file1.txt
-    
-    
-14. cat - (Concatenate)
-    - displays file content on terminal. 	
-    - cat file1.txt
-    
-   🧠 Useful things: 
-      - cat file1.txt file2.txt   
-        👉 shows both files together
-      
-      - cat > file.txt            
-        👉 Deletes old content first and Writes new content. (Ctrl+D to save)
-        
-      - cat >> file.txt         
-        👉 Adds new content at the end. (Ctrl+D to save)
+*Case 1 — Step by step:*
+```
+cd home → cd rahul → cd Downloads   # Now at: /home/rahul/Downloads
 
+cd ..  →  goes to /home/rahul  (parent)
+cd -   →  goes to /home/rahul  (previous)
+# Both look the same here
+```
 
-15. less - 
-    - views file content page by page.  
-    - ex: less file1.txt
+*Case 2 — Direct jump:*
+```
+cd /home/rahul/Downloads   # Came directly from /home
 
-    📌 Useful keys inside less:
-	• ↑ ↓ → scroll
-	• Space → next page
-	• b → previous page
-	• q → quit
-	
-	
-16. more -
-    - display the contents of a file in a terminal.
-    - ex: more file1.txt
-    
-    📝 Short notes:
-	- more = basic page viewer
-        - less = better viewer and many features.
-	
-17. tail - 
-    - shows last 10 lines of a file.
-    - ex: tail file1.txt
-    
-18. head -
-    - shows first 10 lines of a file.  
-    - ex: head file1.txt
+cd ..  →  goes to /home/rahul
+cd -   →  goes back to /home
+# Now they are DIFFERENT
+```
 
-  📝 Custom printing:
-     - head -15 file1.txt = show last 15 lines
-     - head -n 15 file1.txt = same thing
-     
-     
-19. rsync - 
-    - a fast, versatile, remote (and local) file-copying tool.
-    
-    👉 Every time we run rsync:
-	• It compares source and destination
-	• Checks which files are same
-	• Finds which files changed
-    👉 Then:
-	✅ Same files → skipped
-	✅ Changed/new files → copied
-	
-    📌 -a (archive)
-	Means:
-	✔ copy folders + files
-	✔ keep permissions
-	✔ keep ownership
-	✔ keep timestamps
-	👉 Basically: copy everything properly
+---
 
-    📌 -v (verbose)
-	👉 Shows what rsync is doing (list of files being copied)
+### 3. `mkdir` — Make Directory
 
-   - ex: rsync -av source/ destination/
-         rsync -av project_fly/ backup_project_fly/
+Creates a new directory (folder).
 
-20. grep - (Global Regular Expression Print)
-    - searches for a word/pattern in files.  
-    - ex: grep "error" file.txt
-    
-    📌 Useful options:
-        - grep -i "word" file.txt   - ignore case (Word, WORD, word)
-        - grep -n "word" file.txt   - show line number
-        - grep -r "word" folder/    - search inside folders (recursive)
-       
-    📌 Example:
-      - If file has:  Java is good
-		      Linux is good
-		      Spring Boot is powerful
+```bash
+mkdir projects
+mkdir -p dev/java/project1   # -p creates parent folders automatically
+```
 
-      - Run:  grep "good" file.txt
+---
 
-      👉 Output:  Java is good
-		  Linux is good
+### 4. `mv` — Move / Rename
 
+Moves or renames files and folders.
 
-21. find - 
-    - searches for files and folders in the system.  
-    - ex: find . -name file1.txt
+```bash
+# Move
+mv file1.txt Documents/
 
-    📌 Common options:
-	- find . -name file.txt        - search by name
-	- find . -iname file.txt       - search by name (ignore case)
+# Rename
+mv oldname.txt newname.txt
+```
 
-	- find . -type f               - find only files
-	- find . -type d               - find only folders
+> **Note:** Renaming to an *existing* filename will silently overwrite and delete the old file.
+>
+> Example: `mv file1.txt file2.txt` — the original `file2.txt` is deleted, and `file1.txt` becomes `file2.txt`.
 
-	- find . -size +10M            - files bigger than 10MB
-	- find . -size -1M             - files smaller than 1MB
+---
 
-	- find . -mtime -1             - files modified today
-	- find . -mtime +7             - files older than 7 days
-	
-	👉 We can use .. as well. Which search from parent.	
-	
+### 5. `cp` — Copy
 
-     🧠 Note:  - find .   👉 This will list everything (all files & folders).
-               - find ..  👉 This will list everything from parent (all files & folders).
-     
-     📌 Delete all the files having the .log extension in hello directory.
-        👉 find . -name "*.log" -delete 
-           • . = current folder (hello)
-	   • It will search in hello + all subfolders
-	   • Delete all .log files
+Copies files and folders.
 
+```bash
+# File
+cp file1.txt file2.txt
 
-22. sort - 
-    - sorts lines of a file alphabetically or numerically.  
-    - ex: sort file.txt
+# Folder (requires -r flag)
+cp -r project backup_project
+```
 
-    📌 Useful options:
-	sort file.txt         - sort alphabetically
-	sort -n file.txt      - sort numerically
-	sort -r file.txt      - reverse order
+> `-r` = recursive. Without `-r`, folders won't copy.
 
+---
 
-23. date - 
-    - shows current date and time.  
-    - ex: date
-    
-    
-24. tree - 
-    - shows folder structure in tree format.  (Need to install)
-    - ex: tree
-    
-25. wc - (Word Count)
-    - counts lines, words, and characters in a file.  
-    - ex: wc file.txt
-    
-    📌 Useful options:
-        - wc -l file.txt   - count lines
-        - wc -w file.txt   - count words
-        - wc -c file.txt   - count characters
+### 6. `ls` — List
+
+Lists files and folders in a directory.
+
+```bash
+ls
+```
+
+| Flag    | Description                                          |
+|---------|------------------------------------------------------|
+| `ls -l` | Long format (details: size, permission, owner)       |
+| `ls -a` | Include hidden files                                 |
+| `ls -lh`| Long format with human-readable sizes (KB, MB, GB)  |
+| `ls -la`| Long format + hidden files                           |
+
+---
+
+### 7. `pwd` — Print Working Directory
+
+Prints the current directory path.
+
+```bash
+pwd
+```
+
+---
+
+### 8. `rm` — Remove
+
+Deletes files and folders.
+
+```bash
+rm file1.txt
+```
+
+| Flag     | Description                                          |
+|----------|------------------------------------------------------|
+| `rm -r`  | Deletes folders and all contents (recursive)         |
+| `rm -i`  | Asks confirmation before deleting (interactive)      |
+| `rm -ri` | Deletes folder with confirmation                     |
+| `rm -f`  | Force delete without asking (even protected files)   |
+
+| Command | Full Form         | What it does                                                         |
+|---------|-------------------|----------------------------------------------------------------------|
+| `rm`    | Remove            | Deletes files and folders (non-empty folders require flags)          |
+| `rmdir` | Remove Directory  | Deletes only *empty* folders                                         |
+
+---
+
+### 9. `chmod` — Change Mode
+
+Changes file/folder permissions. Three methods:
+
+#### i. Numeric (Octal) — *Most Common*
+
+Format: `chmod XYZ file` where X = owner, Y = group, Z = others.
+
+| Permission | Calculation | Number |
+|------------|-------------|--------|
+| `---`      | 0+0+0       | 0      |
+| `r--`      | 4+0+0       | 4      |
+| `rw-`      | 4+2+0       | 6      |
+| `r-x`      | 4+0+1       | 5      |
+| `rwx`      | 4+2+1       | 7      |
+
+```bash
+chmod 755 file.txt
+chmod 644 file.txt
+chmod 600 secret.txt
+```
+
+#### ii. Symbolic (rwx)
+
+Format: `chmod [who][operator][permission] file`
+
+- **Who:** `u` = owner, `g` = group, `o` = others, `a` = all
+- **Operators:** `+` = add, `-` = remove, `=` = set exactly
+
+```bash
+chmod u+x file.sh          # Add execute for owner
+chmod g-w file.txt         # Remove write for group
+chmod o=r file.txt         # Set only read for others
+chmod a+r file.txt         # Add read for all
+```
+
+#### iii. Mixed (multiple at once)
+
+```bash
+chmod u=rwx,g=rx,o=r file.txt
+```
+
+---
+
+### 10. `chown` — Change Owner
+
+Changes file/folder owner and group.
+
+```bash
+# Change only owner
+sudo chown newUser file.txt
+
+# Change owner + group
+sudo chown newUser:newGroup file.txt
+
+# Change only group
+sudo chown :newGroup file.txt
+
+# Folder + all contents (recursive)
+sudo chown -R newUser:newGroup folderName
+```
+
+---
+
+### 11. `sudo` — Super User Do
+
+Runs a command with admin (root) privileges — *only for that one command*.
+
+```bash
+sudo apt install tree
+```
+
+Common uses for `sudo`: installing software, running `chown`, editing system files, making system-level changes.
+
+---
+
+### 12. `apt` — Advanced Package Tool
+
+Installs, updates, and removes software packages.
+
+```bash
+sudo apt update        # Refresh package list
+sudo apt upgrade       # Upgrade installed software
+sudo apt install pkg   # Install software
+sudo apt remove pkg    # Remove software
+```
+
+> `apt search` and `apt show` don't require `sudo`.
+
+---
+
+### 13. `touch`
+
+Creates a new empty file (or updates timestamp if file already exists).
+
+```bash
+touch file1.txt
+```
+
+---
+
+### 14. `cat` — Concatenate
+
+Displays file content in the terminal.
+
+```bash
+cat file1.txt
+cat file1.txt file2.txt   # Show both files together
+cat > file.txt            # Overwrite with new content (Ctrl+D to save)
+cat >> file.txt           # Append to end (Ctrl+D to save)
+```
+
+---
+
+### 15. `less`
+
+Views file content page by page.
+
+```bash
+less file1.txt
+```
+
+| Key     | Action         |
+|---------|----------------|
+| `↑ ↓`  | Scroll         |
+| `Space` | Next page      |
+| `b`     | Previous page  |
+| `q`     | Quit           |
+
+---
+
+### 16. `more`
+
+Displays file contents in the terminal (basic pager).
+
+```bash
+more file1.txt
+```
+
+> `less` is the improved version of `more` with more features.
+
+---
+
+### 17. `tail`
+
+Shows the last 10 lines of a file (default).
+
+```bash
+tail file1.txt
+```
+
+---
+
+### 18. `head`
+
+Shows the first 10 lines of a file (default).
+
+```bash
+head file1.txt
+head -15 file1.txt       # Show first 15 lines
+head -n 15 file1.txt     # Same thing
+```
+
+---
+
+### 19. `rsync`
+
+A fast, versatile file-copying tool (local and remote).
+
+```bash
+rsync -av source/ destination/
+rsync -av project_fly/ backup_project_fly/
+```
+
+How it works each run:
+- Compares source and destination
+- Skips files that are the same
+- Copies only changed or new files
+
+| Flag | Meaning                                                                       |
+|------|-------------------------------------------------------------------------------|
+| `-a` | Archive mode: copies folders, preserves permissions, ownership, timestamps    |
+| `-v` | Verbose: shows what rsync is doing                                            |
+
+---
+
+### 20. `grep` — Global Regular Expression Print
+
+Searches for a word/pattern in files.
+
+```bash
+grep "error" file.txt
+```
+
+| Command                      | Option | Explanation                                              |
+|------------------------------|--------|----------------------------------------------------------|
+| `grep -i "word" file.txt`    | `-i`   | Ignore case (matches Word, WORD, word)                   |
+| `grep -n "word" file.txt`    | `-n`   | Show line number of each match                           |
+| `grep -r "word" folder/`     | `-r`   | Recursive search inside folder and subfolders            |
+| `grep -v "word" file.txt`    | `-v`   | Invert match — show lines that do *not* contain the word |
+| `grep -o "word" file.txt`    | `-o`   | Only matching — print matched word, not full line        |
+
+---
+
+### 21. `find`
+
+Searches for files and folders in the system.
+
+```bash
+find . -name file1.txt
+```
+
+| Command                    | What it does                      |
+|----------------------------|-----------------------------------|
+| `find . -name file.txt`    | Search by name                    |
+| `find . -iname file.txt`   | Search by name (ignore case)      |
+| `find . -type f`           | Find only files                   |
+| `find . -type d`           | Find only folders                 |
+| `find . -size +10M`        | Files bigger than 10 MB           |
+| `find . -size -1M`         | Files smaller than 1 MB           |
+| `find . -mtime -1`         | Files modified today              |
+| `find . -mtime +7`         | Files older than 7 days           |
+
+```bash
+# Delete all .log files in current directory and subfolders
+find . -name "*.log" -delete
+```
+
+---
+
+### 22. `sort`
+
+Sorts lines of a file alphabetically or numerically.
+
+```bash
+sort file.txt        # Sort alphabetically
+sort -n file.txt     # Sort numerically
+sort -r file.txt     # Reverse order
+```
+
+---
+
+### 23. `date`
+
+Shows the current date and time.
+
+```bash
+date
+```
+
+---
+
+### 24. `tree`
+
+Shows folder structure in tree format *(requires installation)*.
+
+```bash
+tree
+```
+
+---
+
+### 25. `wc` — Word Count
+
+Counts lines, words, and characters in a file.
+
+```bash
+wc file.txt
+wc -l file.txt   # Count lines
+wc -w file.txt   # Count words
+wc -c file.txt   # Count characters
+```
+
+---
+
+### 26. `sed` — Stream Editor
+
+Reads text line by line; can print, replace, or delete lines.
+
+| Command                          | Option | Explanation                                          |
+|----------------------------------|--------|------------------------------------------------------|
+| `sed 's/old/new/' file.txt`      | `s`    | Substitute first occurrence per line                 |
+| `sed 's/old/new/g' file.txt`     | `g`    | Global replace (all occurrences per line)            |
+| `sed '5d' file.txt`              | `d`    | Delete line 5                                        |
+| `sed '10,20d' file.txt`          | `d`    | Delete lines 10 to 20                                |
+| `sed -n '/Harry/p' file.txt`     | `-n p` | Print only lines matching the word                   |
+| `sed -i 's/old/new/g' file.txt`  | `-i`   | Edit file directly (save changes in place)           |
+
+```bash
+# Print only lines 100 to 200
+sed -n '100,200p' file.txt
+```
+
+---
+
+### 27. `tr` — Translate
+
+Replaces or deletes characters in text.
+
+| Command               | Explanation                                             |
+|-----------------------|---------------------------------------------------------|
+| `tr ' ' '\n'`         | Replace spaces with newlines (one word per line)        |
+| `tr 'a-z' 'A-Z'`      | Convert lowercase to uppercase                          |
+| `tr 'A-Z' 'a-z'`      | Convert uppercase to lowercase                          |
+| `tr -d ','`           | Delete commas                                           |
+| `tr -d ' '`           | Delete spaces                                           |
+| `tr -c 'A-Za-z' '\n'` | Replace everything except letters with newlines         |
+
+---
+
+### 28. `uniq`
+
+Removes or counts duplicate consecutive lines.
+
+| Command                  | Explanation                              |
+|--------------------------|------------------------------------------|
+| `uniq file.txt`          | Remove duplicate consecutive lines       |
+| `sort file.txt \| uniq`  | Sort first, then remove all duplicates   |
+| `uniq -c`                | Count how many times each line appears   |
+| `uniq -d`                | Show only duplicated lines               |
+| `uniq -u`                | Show only lines that appear once         |
+
+---
+<br>
+
+## OS / Process Commands
+
+### 1. `ps` — Process Status
+
+Displays currently running processes.
+
+```bash
+ps
+```
+
+| Command   | Flags                                                  | Shows                           | Best used for                         |
+|-----------|--------------------------------------------------------|---------------------------------|---------------------------------------|
+| `ps -ef`  | `-e` = every process, `-f` = full format               | PID, PPID, command, user        | Seeing parent-child process relation  |
+| `ps aux`  | `a` = all users, `u` = user format, `x` = background  | PID, CPU %, Memory %, command   | Monitoring CPU & RAM usage            |
+
+---
+
+### 2. `top` — Table of Processes
+
+Shows running processes in real time (live view).
+
+```bash
+top
+```
+
+---
+
+### 3. `df` — Disk Free
+
+Shows disk space usage.
+
+```bash
+df
+df -h    # Human readable (KB, MB, GB)
+```
+
+---
+
+### 4. `uname` — Unix Name
+
+Shows system information.
+
+```bash
+uname
+uname -a    # All system info (kernel, OS, architecture, hostname)
+uname -r    # Kernel version
+uname -m    # Machine type (32-bit or 64-bit)
+```
+
+---
+
+### 5. `free` — Free Memory
+
+Shows memory (RAM) usage.
+
+```bash
+free
+free -h    # Human readable (KB, MB, GB)
+```
+
+---
+
+### 6. `lspci` — List PCI Devices
+
+Shows hardware devices connected to the PCI bus.
+
+```bash
+lspci
+```
+
+| Keyword in output                  | Device type          | Meaning                        |
+|------------------------------------|----------------------|--------------------------------|
+| `Non-Volatile memory controller`   | SSD (storage)        | Intel NVMe SSD drive           |
+| `Network controller`               | Network card         | WiFi / Internet device         |
+| `VGA compatible controller`        | Graphics card (GPU)  | AMD graphics processor         |
+| `Audio device`                     | Sound card           | Handles audio (speaker, mic)   |
+| `USB controller`                   | USB ports            | Controls USB devices           |
+
+---
+
+### 7. `kill` — Kill Process
+
+Terminates a running process.
+
+```bash
+kill 1234          # Stop process with PID = 1234
+pkill chrome       # Kill a process by name
+```
+
+---
+<br>
+
+## Network Commands
+
+### 1. `ping` — Packet Internet Groper
+
+Checks network connectivity.
+
+```bash
+ping google.com
+ping -c 4 google.com    # Send 4 packets then stop
+```
+
+| Output part                        | Meaning           | Explanation                                 |
+|------------------------------------|-------------------|---------------------------------------------|
+| `PING google.com (142.250.70.78)`  | IP address        | Google's server IP                          |
+| `64 bytes`                         | Packet size       | Data sent in each ping                      |
+| `time=32 ms`                       | Response time     | How fast server replied (lower = better)    |
+| `ttl=118`                          | Time to live      | Network hop limit                           |
+| `4 transmitted`                    | Sent packets      | Number of pings sent                        |
+| `4 received`                       | Received packets  | Successful replies                          |
+| `0% packet loss`                   | Network quality   | No data lost (perfect connection)           |
+| `rtt min/avg/max`                  | Speed stats       | Round-trip time summary                     |
+
+---
+
+### 2. `ifconfig` — Interface Configuration
+
+Shows network interface configuration.
+
+```bash
+ifconfig
+```
+
+> `ifconfig` is the older tool; `ip a` is the modern standard.
+
+| Interface  | Meaning                  |
+|------------|--------------------------|
+| `lo`       | Internal system network  |
+| `wlx...`   | WiFi                     |
+| `inet`     | Your IP address          |
+
+---
+
+### 3. `ssh` — Secure Shell
+
+Connects to another computer remotely.
+
+```bash
+ssh user@ip_address
+```
+
+---
+
+### 4. `ss` — Socket Statistics
+
+Views network connections and ports (modern replacement for `netstat`).
+
+```bash
+ss -tuln    # Show all active TCP/UDP listening ports
+ss -tulnp   # Same + which process owns each port
+ss -tulnp | grep 5432   # Filter for port 5432 only
+```
+
+| Flag | Meaning                                   |
+|------|-------------------------------------------|
+| `-t` | Show TCP connections                      |
+| `-u` | Show UDP connections                      |
+| `-l` | Show only listening ports                 |
+| `-n` | Show numbers (ports/IPs, not names)       |
+| `-p` | Show which process owns the port          |
+
+---
+
+### 5. `which` / `whereis`
+
+- Use `which` when running commands (finds executable location).
+- Use `whereis` when exploring the system (finds binary, source, and man pages).
