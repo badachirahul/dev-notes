@@ -2,8 +2,8 @@
 
 ## Core Concepts
 
-- **Operators** are used to make commands more powerful.
-- **Flags** are used to modify how a command works.
+- **Operators:** `Operators are used to combine and control commands, making them more powerful.`
+- **Flags:** `Flags are used to modify how a command works.`
 	- Short flags → -l, -a, -r
 	- Long flags → --help, --version
 
@@ -210,12 +210,12 @@ Deletes files and folders.
 rm file1.txt
 ```
 
-| Flag     | Description                                          |
-|----------|------------------------------------------------------|
-| `rm -r`  | Deletes folders and all contents (recursive)         |
-| `rm -i`  | Asks confirmation before deleting (interactive)      |
-| `rm -ri` | Deletes folder with confirmation                     |
-| `rm -f`  | Force delete without asking (even protected files)   |
+| Flag     | Description                                          | Files | Folders |
+|----------|------------------------------------------------------|-------|---------|
+| `rm -r`  | Deletes folders and all contents (recursive)         | ❌    | ✅      |
+| `rm -i`  | Asks confirmation before deleting (interactive)     | ✅    | ❌ (use with `-r`) |
+| `rm -ri` | Deletes folder with confirmation (for folders)      | ❌    | ✅      |
+| `rm -f`  | Force delete without asking (even protected files)  | ✅    | ❌ (use with `-r`) |
 
 | Command | Full Form         | What it does                                                         |
 |---------|-------------------|----------------------------------------------------------------------|
