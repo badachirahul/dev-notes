@@ -260,8 +260,8 @@ git stash clear
 
 
 
-###
-Git cherry-pick: https://www.youtube.com/watch?v=xB0Jo_dmIQw
+## 8. Git cherry-pick
+- Refer this video: https://www.youtube.com/watch?v=xB0Jo_dmIQw
 
 
 ## Questions
